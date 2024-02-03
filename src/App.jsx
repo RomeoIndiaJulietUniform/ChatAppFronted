@@ -2,7 +2,7 @@ import React from 'react';
 import Home from './Components/Home.jsx';
 import './index.css';
 import { useAuth0 } from '@auth0/auth0-react';
-import ChatWindow from './Components/ChatWindow.jsx';
+import ChatApp from './Components/ChatApp.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -20,7 +20,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/ChatWindow" element={<ChatWindow />} />
+        <Route path="/ChatWindow" element={<ChatApp />} />
       </Routes>
     </Router>
   );
