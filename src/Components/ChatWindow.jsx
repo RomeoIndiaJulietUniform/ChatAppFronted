@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import "../CompStyles/ChatWindow.css";
 
 
-const ChatWindow = () => {
+const ChatWindow = (props) => {
   const { logout, user } = useAuth0();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState([]);
@@ -20,7 +20,7 @@ const ChatWindow = () => {
       <VerNavbar />
       <div className='chat-container'>
         <div className='chat-header'>
-          <h3>Friend or Group Name</h3>
+          <h3>props</h3>
         </div>
         <div className='chat-messages'>
           {messages.map((message, index) => (

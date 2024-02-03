@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../CompStyles/VerNavbar.css';
 import userData from '../Mockdata/user_info.json';
+import ChatWindow from './ChatWindow';
 
 const VerNavbar = ({ apiUrl }) => {
   const [contactText, setContactText] = useState('');
@@ -11,6 +12,7 @@ const VerNavbar = ({ apiUrl }) => {
   const [contacts, setContacts] = useState([]);
   const [groups, setGroups] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUserName, setSelectedUserName] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,10 +35,19 @@ const VerNavbar = ({ apiUrl }) => {
   }, [apiUrl]);
 
   const handleUserClick = (index) => {
+
+    const selectedUserName = userData[index].name;
+    console.log('Selected User:', selectedUserName);
+
+
+    setSelectedUserName(selectedUserName);
+
+
     // Toggle selected user
     setSelectedUser((prevSelectedUser) =>
       prevSelectedUser === index ? null : index
     );
+
   };
 
   return (

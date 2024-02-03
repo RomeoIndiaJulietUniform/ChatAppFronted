@@ -35,6 +35,7 @@
   cursor: pointer;
   margin-left: 0;
   padding: 6px;
+  border-radius: 2px;
 }
 
 .user-box:hover {
@@ -50,7 +51,8 @@
 
 .user-box p {
   margin-left: 5%;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
 }
 
 .user-box.selected {

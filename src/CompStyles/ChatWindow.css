@@ -1,4 +1,4 @@
-.window{
+.window {
   display: flex;
   justify-content: space-between;
   margin-left: 4%;
@@ -19,3 +19,34 @@ button {
 button:hover {
   background-color: #2980b9;
 }
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end; 
+  width: 100%;
+  align-items: center;
+  height: 100vh;
+}
+
+.chat-input{
+      display: flex;
+      align-items: flex-end; 
+      width: 100%;
+      margin-left: 10%;
+}
+
+.chat-input input{
+      width: 60%;
+      height: 6vh;
+      
+}
+
+
+.chat-input button{
+  width: 20%;
+  height: 6.7vh;
+}
+
+
