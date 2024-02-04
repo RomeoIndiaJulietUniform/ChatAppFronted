@@ -9,10 +9,18 @@
 }
 
 .nav-item {
-  margin: 8px 0;
+  display: flex;
   cursor: pointer;
-  font-size: 16px;
   color: #fffcfc;
+}
+
+.plusicon{
+  font-size: 30px;
+}
+
+.srchicon{
+  font-size: 30px;
+  color: aliceblue;
 }
 
 .nav-item:hover {
