@@ -38,9 +38,6 @@ const ChatWindow = (props) => {
           <button onClick={handleSendMessage}>Send</button>
         </div>
       </div>
-      <div className='lg-btn'>
-      <button onClick={logout}>Logout</button>
-      </div>
     </div>
   );
 };

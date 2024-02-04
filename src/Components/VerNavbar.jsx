@@ -72,8 +72,8 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
   return (
     <div className="ver-navbar">
       <div className='feat'>
-      <div className="nav-item">
-        <span role="img" aria-label="plus-icon" className='plusicon' onClick={openAddChatModal}>
+      <div className="nav-item" onClick={openAddChatModal}>
+        <span role="img" aria-label="plus-icon" className='plusicon'>
           ➕
         </span>
       </div>
@@ -82,7 +82,7 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
       </div>
       <div className="nav-item" onClick={openAddUidModal}>
         <span role="img" aria-label="uid-icon" className='uid-icon'>
-          UID
+          Create or Change New UID
         </span>
       </div>
       </div>

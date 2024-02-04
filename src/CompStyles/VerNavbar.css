@@ -8,23 +8,63 @@
   width: 30%;
 }
 
+.feat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 15vh;
+  overflow: auto;
+}
+
 .nav-item {
   display: flex;
   cursor: pointer;
-  color: #fffcfc;
+  border-radius: 2px;
+  color: black;
+  background-color: #ffeeba;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(3, 3, 3);
 }
 
-.plusicon{
+
+.nav-item:hover {
+  color: black;
+  background-color: #fadb7d;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, #fff, transparent);
+  animation: shine 1s infinite linear;
+}
+
+@keyframes shine {
+  to {
+    left: 100%;
+  }
+}
+
+.plusicon {
   font-size: 30px;
 }
 
-.srchicon{
+.srchicon {
   font-size: 30px;
-  color: aliceblue;
+  color: black;
 }
 
 .nav-item:hover {
-  color: black; 
+  color: black;
 }
 
 .profile-image {
@@ -48,13 +88,13 @@
 
 .user-box:hover {
   background-color: #f5f5f5;
-  color: black; 
+  color: black;
 }
 
 .user-data li {
   list-style: none;
-  margin-left: 0; 
-  margin-bottom: 0; 
+  margin-left: 0;
+  margin-bottom: 0;
 }
 
 .user-box p {
@@ -64,6 +104,10 @@
 }
 
 .user-box.selected {
-  background-color: #ffeeba; 
-  color: black; 
+  background-color: #ffeeba;
+  color: black;
+}
+
+.uid-icon{
+    font-size: 1.5rem;
 }
