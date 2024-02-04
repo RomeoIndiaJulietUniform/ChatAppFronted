@@ -15,29 +15,36 @@ const ChatWindow = (props) => {
     // Add your logic to send a message
   };
 
+  // Render chat window content only if props.selectedUserName is selected
   return (
     <div className='window'>
-      <div className='chat-container'>
-        <div className='chat-header'>
-          <h3>{props.selectedUserName}</h3>
+      {props.selectedUserName ? (
+        <div className='chat-container'>
+          <div className='chat-header'>
+            <h3>{props.selectedUserName}</h3>
+          </div>
+          <div className='chat-messages'>
+            {messages.map((message, index) => (
+              <div key={index} className={message.sender === user.name ? 'sent' : 'received'}>
+                <p>{message.text}</p>
+              </div>
+            ))}
+          </div>
+          <div className='chat-input'>
+            <input
+              type='text'
+              placeholder='Type your message...'
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+            />
+            <button onClick={handleSendMessage}>Send</button>
+          </div>
         </div>
-        <div className='chat-messages'>
-          {messages.map((message, index) => (
-            <div key={index} className={message.sender === user.name ? 'sent' : 'received'}>
-              <p>{message.text}</p>
-            </div>
-          ))}
+      ) : (
+        <div>
+          {/* Render a blank div or any other content when props.selectedUserName is not selected */}
         </div>
-        <div className='chat-input'>
-          <input
-            type='text'
-            placeholder='Type your message...'
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-          />
-          <button onClick={handleSendMessage}>Send</button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

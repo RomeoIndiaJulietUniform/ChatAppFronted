@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AddChatModal from './AddChatModal'; 
-import '../CompStyles/VerNavbar.css';
-import userData from '../Mockdata/user_info.json';
+import { useAuth0 } from '@auth0/auth0-react';
+import Modal from 'react-modal';
 import { FaPlus, FaSearch } from 'react-icons/fa';
+import AddChatModal from './AddChatModal';
 import SearchModal from './SearchModal';
 import AddUidModal from './AddUidModal';
+import LogoutModal from './LogoutModal';
+import '../CompStyles/VerNavbar.css';
+import userData from '../Mockdata/user_info.json';
+
+Modal.setAppElement('#root');
 
 const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [contactText, setContactText] = useState('');
   const [groupsText, setGroupsText] = useState('');
   const [profileText, setProfileText] = useState('');
@@ -18,6 +24,7 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
   const [isAddChatModalOpen, setIsAddChatModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isAddUidModalOpen, setIsAddUidModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,31 +70,35 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
     setIsAddUidModalOpen(true);
   };
 
+  const openLogoutModal = () => {
+    setIsLogoutModalOpen(true);
+  };
+
   const closeAllModals = () => {
     setIsAddChatModalOpen(false);
     setIsSearchModalOpen(false);
     setIsAddUidModalOpen(false);
+    setIsLogoutModalOpen(false);
   };
 
   return (
     <div className="ver-navbar">
       <div className='feat'>
-      <div className="nav-item" onClick={openAddChatModal}>
-        <span role="img" aria-label="plus-icon" className='plusicon'>
-          ➕
-        </span>
-      </div>
-      <div className="nav-item" onClick={openSearchModal}>
-        <FaSearch className="srchicon" />
-      </div>
-      <div className="nav-item" onClick={openAddUidModal}>
-        <span role="img" aria-label="uid-icon" className='uid-icon'>
-          Create or Change New UID
-        </span>
-      </div>
+        <div className="nav-item" onClick={openAddChatModal}>
+          <span role="img" aria-label="plus-icon" className='plusicon'>
+            ➕
+          </span>
+        </div>
+        <div className="nav-item" onClick={openSearchModal}>
+          <FaSearch className="srchicon" />
+        </div>
+        <div className="nav-item" onClick={openAddUidModal}>
+          <span role="img" aria-label="uid-icon" className='uid-icon'>
+            Create or Change New UID
+          </span>
+        </div>
       </div>
       <div className="user-data">
-        <h4>User Data</h4>
         <ul style={{ paddingLeft: 0 }}>
           {userData.map((user, index) => (
             <li key={index}>
@@ -100,6 +111,16 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div>
+        {isAuthenticated && (
+          <article className='imgauth' onClick={openLogoutModal}>
+            {user?.picture && <img src={user.picture} alt={user.name} />}
+          </article>
+        )}
+
+        {isLogoutModalOpen && <LogoutModal isOpen={isLogoutModalOpen} onRequestClose={closeAllModals} />}
       </div>
 
       {isAddChatModalOpen && <AddChatModal closeModal={closeAllModals} />}

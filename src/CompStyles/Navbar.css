@@ -10,6 +10,16 @@ body {
     color: #333;
 }
 
+.imgauth {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+  }
+
 
 .navbar-left {
     display: flex;
@@ -94,11 +104,13 @@ body {
 }
 
 .imgauth img {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     margin-left: 10px;
 }
+
+
 
 
 .Modal {
