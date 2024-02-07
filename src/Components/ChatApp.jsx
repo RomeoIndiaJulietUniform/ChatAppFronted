@@ -5,15 +5,15 @@ import ChatWindow from './ChatWindow';
 import NoUidModal from './NoUidModal';
 import '../CompStyles/ChatApp.css';
 
-const ChatApp = () => {
+const ChatApp = ({ userEmail }) => {
   const [selectedUserName, setSelectedUserName] = useState('');
   const [showNoUidModal, setShowNoUidModal] = useState(false);
 
   useEffect(() => {
-    // Fetch logic to check if UID is present in MongoDB
-    const checkUidInMongoDB = async () => {
+    // Fetch logic to check if userEmail is present in MongoDB
+    const checkUserEmailInMongoDB = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/checkUid/YOUR_UID', {
+        const response = await fetch(`http://localhost:3001/api/checkUserEmail/${userEmail}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -24,31 +24,30 @@ const ChatApp = () => {
           const data = await response.json();
           console.log('Response from server:', data);
 
-          const uidExists = data.uidExists; // Replace with the actual response property
+          const emailExists = data.emailExists;
 
-          if (!uidExists) {
-            console.log('No UID found in MongoDB. Showing modal.');
+          if (!emailExists) {
+            console.log('User email not found in MongoDB. Showing modal.');
             setShowNoUidModal(true);
           }
         } else {
-          console.error('Failed to check UID in MongoDB. Status:', response.status);
+          console.error('Failed to check user email in MongoDB. Status:', response.status);
         }
       } catch (error) {
-        console.error('Error while checking UID:', error);
+        console.error('Error while checking user email:', error);
       }
     };
 
-    checkUidInMongoDB();
-  }, []); // Run only once when the component mounts
-
-
+    checkUserEmailInMongoDB();
+  }, [userEmail]); // Run whenever userEmail changes
 
   return (
     <div className='chat-Container'>
       <VerNavbar apiUrl="http://localhost:5173/ChatWindow" setSelectedUserName={setSelectedUserName} />
       <ChatWindow selectedUserName={selectedUserName} />
 
-      {showNoUidModal && <NoUidModal onRequestClose={() => setShowNoUidModal(false)}  />}
+      {console.log('showNoUidModal:', showNoUidModal)}
+      {showNoUidModal && <NoUidModal onRequestClose={() => setShowNoUidModal(false)} />}
     </div>
   );
 };

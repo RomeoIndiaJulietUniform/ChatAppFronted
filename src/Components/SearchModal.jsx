@@ -1,8 +1,29 @@
-import React from 'react';
-import "../CompStyles/SearchModal.css" // Import your CSS file for styling
-import "../CompStyles/SearchModal.css"
+import React, { useState } from 'react';
+import '../CompStyles/SearchModal.css'; // Import your CSS file for styling
 
 const SearchModal = ({ closeModal }) => {
+  const [searchInput, setSearchInput] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:3001/api/findNameByUid/${searchInput}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.name) {
+          setSearchResults([data.name]);
+        } else {
+          setSearchResults(['No user found']); // Or handle the case where no user is found
+        }
+      } else {
+        console.error('Failed to fetch user:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error searching for user:', error);
+    }
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-content search-modal">
@@ -10,17 +31,21 @@ const SearchModal = ({ closeModal }) => {
           &times;
         </span>
         <h2>Search Users</h2>
-        {/* Add your modal content here */}
-        <form>
-          <label htmlFor="searchInput">Enter username:</label>
-          <input type="text" id="searchInput" name="searchInput" />
+        <form onSubmit={handleSearch}>
+          <label htmlFor="searchInput">Enter UID:</label>
+          <input
+            type="text"
+            id="searchInput"
+            name="searchInput"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
           <button type="submit">Search</button>
         </form>
-        {/* Display search results or other content based on your needs */}
         <div className="search-results">
-          <p>Result 1</p>
-          <p>Result 2</p>
-          {/* Add more result items as needed */}
+          {searchResults.map((result, index) => (
+            <p key={index}>{result}</p>
+          ))}
         </div>
       </div>
     </div>

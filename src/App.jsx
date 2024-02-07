@@ -11,6 +11,8 @@ const App = () => {
   useEffect(() => {
     const uploadUserToMongoDB = async () => {
       try {
+        if (!user) return; // Ensure user exists before trying to upload
+
         const response = await fetch('http://localhost:3001/api/uploadUser', {
           method: 'POST',
           headers: {
@@ -32,9 +34,7 @@ const App = () => {
       }
     };
 
-    if (user) {
-      uploadUserToMongoDB();
-    }
+    uploadUserToMongoDB();
   }, [user]); 
 
   if (isLoading) {
@@ -49,7 +49,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/ChatWindow" element={<ChatApp />} />
+        {user && <Route path="/ChatWindow" element={<ChatApp userEmail={user.email} />} />}
       </Routes>
     </Router>
   );
