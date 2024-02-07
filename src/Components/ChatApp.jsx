@@ -41,12 +41,14 @@ const ChatApp = () => {
     checkUidInMongoDB();
   }, []); // Run only once when the component mounts
 
+
+
   return (
     <div className='chat-Container'>
       <VerNavbar apiUrl="http://localhost:5173/ChatWindow" setSelectedUserName={setSelectedUserName} />
       <ChatWindow selectedUserName={selectedUserName} />
 
-      {showNoUidModal && <NoUidModal onRequestClose={() => setShowNoUidModal(false)} />}
+      {showNoUidModal && <NoUidModal onRequestClose={() => setShowNoUidModal(false)}  />}
     </div>
   );
 };
