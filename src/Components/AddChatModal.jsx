@@ -3,14 +3,32 @@ import "../CompStyles/AddChatModal.css";
 
 const AddChatModal = ({ closeModal }) => {
   const [groupName, setGroupName] = useState('');
-  const [memberEmails, setMemberEmails] = useState('');
+  const [memberIdentifier, setMemberIdentifier] = useState('');
+  const [groupUid, setGroupUid] = useState('');
 
   const handleGroupNameChange = (e) => {
     setGroupName(e.target.value);
   };
 
-  const handleMemberEmailsChange = (e) => {
-    setMemberEmails(e.target.value);
+  const handleMemberIdentifierChange = (e) => {
+    setMemberIdentifier(e.target.value);
+  };
+
+  const handleGroupUidChange = (e) => {
+    setGroupUid(e.target.value);
+  };
+
+  const generateRandomUid = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 16; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
+
+  const handleGenerateUid = () => {
+    setGroupUid(generateRandomUid());
   };
 
   const handleSubmit = async (e) => {
@@ -24,12 +42,14 @@ const AddChatModal = ({ closeModal }) => {
         },
         body: JSON.stringify({
           Name: groupName,
-          memberEmails: memberEmails.split(',').map(email => email.trim()), // Assuming member emails are comma-separated
+          memberEmails: memberIdentifier.trim(), // Assuming the member identifier is an email
+          groupUid: groupUid.trim()
         }),
       });
 
       if (response.ok) {
         console.log('Group created successfully.');
+        closeModal();
         // Add any further actions upon successful group creation
       } else {
         console.error('Failed to create group:', response.statusText);
@@ -57,14 +77,23 @@ const AddChatModal = ({ closeModal }) => {
             value={groupName}
             onChange={handleGroupNameChange}
           />
-          <label htmlFor="memberEmails">Member Emails (comma-separated):</label>
+          <label htmlFor="memberIdentifier">Member Email:</label>
           <input
             type="text"
-            id="memberEmails"
-            name="memberEmails"
-            value={memberEmails}
-            onChange={handleMemberEmailsChange}
+            id="memberIdentifier"
+            name="memberIdentifier"
+            value={memberIdentifier}
+            onChange={handleMemberIdentifierChange}
           />
+          <label htmlFor="groupUid">Group UID:</label>
+          <input
+            type="text"
+            id="groupUid"
+            name="groupUid"
+            value={groupUid}
+            onChange={handleGroupUidChange}
+          />
+          <button type="button" onClick={handleGenerateUid}>Generate UID</button>
           <button type="submit">Create Group</button>
         </form>
       </div>
