@@ -8,19 +8,45 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3001/api/findNameByUid/${searchInput}`);
+      let searchType = '';
+      if (searchInput.length === 12) {
+        searchType = 'groupUid';
+      } else if (searchInput.length === 16) {
+        searchType = 'uid';
+      } else if (searchInput.includes(' ')) {
+        searchType = 'user';
+      } else {
+        searchType = 'group';
+      }
+      console.log('Search Type:', searchType);
+
+      let url = '';
+      if (searchType === 'groupUid') {
+        url = `http://localhost:3001/api/findGroupNameByIdOrName?groupId=${searchInput}`;
+      } else if (searchType === 'uid') {
+        url = `http://localhost:3001/api/findNameByUid/${searchInput}`;
+      } else if (searchType === 'user') {
+        url = `http://localhost:3001/api/findNameByName/${searchInput}`;
+      } else {
+        url = `http://localhost:3001/api/findGroupNameByIdOrName?name=${searchInput}`;
+      }
+      console.log('API URL:', url);
+
+      const response = await fetch(url);
+      console.log('Fetch Response:', response);
       if (response.ok) {
         const data = await response.json();
-        if (data.name) {
-          setSearchResults([data.name]);
+        console.log('Riju:', data);
+        if (data.groupName) {
+          setSearchResults([data.groupName]);
         } else {
-          setSearchResults(['No user found']); // Or handle the case where no user is found
+          setSearchResults(['No user or group found']); // Or handle the case where no user or group is found
         }
       } else {
-        console.error('Failed to fetch user:', response.statusText);
+        console.error('Failed to fetch data:', response.statusText);
       }
     } catch (error) {
-      console.error('Error searching for user:', error);
+      console.error('Error searching:', error);
     }
   };
 
@@ -35,9 +61,9 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
         <span className="close" onClick={closeModal}>
           &times;
         </span>
-        <h2>Search Users</h2>
+        <h2>Search Users or Groups</h2>
         <form onSubmit={handleSearch}>
-          <label htmlFor="searchInput">Enter UID:</label>
+          <label htmlFor="searchInput">Enter UID, Name, or Group Name:</label>
           <input
             type="text"
             id="searchInput"
