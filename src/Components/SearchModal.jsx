@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../CompStyles/SearchModal.css'; // Import your CSS file for styling
 
-const SearchModal = ({ closeModal }) => {
+const SearchModal = ({ closeModal, onSelectUserName }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -24,6 +24,11 @@ const SearchModal = ({ closeModal }) => {
     }
   };
 
+  const handleSelectUser = (userName) => {
+    onSelectUserName(userName);
+    closeModal();
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-content search-modal">
@@ -44,7 +49,10 @@ const SearchModal = ({ closeModal }) => {
         </form>
         <div className="search-results">
           {searchResults.map((result, index) => (
-            <p key={index}>{result}</p>
+            <div key={index}>
+              <p>{result}</p>
+              <button onClick={() => handleSelectUser(result)}>Select</button>
+            </div>
           ))}
         </div>
       </div>

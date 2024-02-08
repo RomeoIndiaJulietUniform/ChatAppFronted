@@ -8,11 +8,10 @@ import SearchModal from './SearchModal';
 import AddUidModal from './AddUidModal';
 import LogoutModal from './LogoutModal';
 import '../CompStyles/VerNavbar.css';
-import userData from '../Mockdata/user_info.json';
 
 Modal.setAppElement('#root');
 
-const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
+const VerNavbar = ({ apiUrl }) => {
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [contactText, setContactText] = useState('');
   const [groupsText, setGroupsText] = useState('');
@@ -25,6 +24,7 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isAddUidModalOpen, setIsAddUidModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [selectedUserName, setSelectedUserName] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,16 +46,10 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
     fetchData();
   }, [apiUrl]);
 
-  const handleUserClick = (index) => {
-    var selectedUserName = userData[index].name;
-    console.log('Selected User:', selectedUserName);
+  const handleUserClick = (userName) => {
+    console.log('Selected User:', userName);
 
-    setSelectedUserName(selectedUserName);
-
-    // Toggle selected user
-    setSelectedUser((prevSelectedUser) =>
-      prevSelectedUser === index ? null : index
-    );
+    setSelectedUserName(userName);
   };
 
   const openAddChatModal = () => {
@@ -81,6 +75,11 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
     setIsLogoutModalOpen(false);
   };
 
+  const handleSelectUserName = (userName) => {
+    setSelectedUserName(userName);
+    closeAllModals(); // Close the search modal after selecting a user
+  };
+
   return (
     <div className="ver-navbar">
       <div className='feat'>
@@ -100,16 +99,13 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
       </div>
       <div className="user-data">
         <ul style={{ paddingLeft: 0 }}>
-          {userData.map((user, index) => (
-            <li key={index}>
-              <div
-                className={`user-box ${selectedUser === index ? 'selected' : ''}`}
-                onClick={() => handleUserClick(index)}
-              >
-                <p>{user.name}</p>
+          {selectedUserName && ( // Render only if selectedUserName is not null or undefined
+            <li>
+              <div className={`user-box ${selectedUserName === selectedUser ? 'selected' : ''}`} onClick={() => handleUserClick(selectedUserName)}>
+                <p>{selectedUserName}</p>
               </div>
             </li>
-          ))}
+          )}
         </ul>
       </div>
 
@@ -124,7 +120,7 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
       </div>
 
       {isAddChatModalOpen && <AddChatModal closeModal={closeAllModals} />}
-      {isSearchModalOpen && <SearchModal closeModal={closeAllModals} />}
+      {isSearchModalOpen && <SearchModal closeModal={closeAllModals} onSelectUserName={handleSelectUserName} />}
       {isAddUidModalOpen && <AddUidModal closeModal={closeAllModals} />}
     </div>
   );
@@ -132,7 +128,6 @@ const VerNavbar = ({ apiUrl, setSelectedUserName }) => {
 
 VerNavbar.propTypes = {
   apiUrl: PropTypes.string.isRequired,
-  setSelectedUserName: PropTypes.func.isRequired,
 };
 
 export default VerNavbar;
