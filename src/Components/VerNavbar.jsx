@@ -19,12 +19,13 @@ const VerNavbar = ({ apiUrl }) => {
   const [profileImagePath, setProfileImagePath] = useState('');
   const [contacts, setContacts] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [isAddChatModalOpen, setIsAddChatModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isAddUidModalOpen, setIsAddUidModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [selectedUserName, setSelectedUserName] = useState('');
+  const [selectedOption,setSelectedOption] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,9 +48,8 @@ const VerNavbar = ({ apiUrl }) => {
   }, [apiUrl]);
 
   const handleUserClick = (userName) => {
+    setSelectedOption(userName);
     console.log('Selected User:', userName);
-
-    setSelectedUserName(userName);
   };
 
   const openAddChatModal = () => {
@@ -77,6 +77,7 @@ const VerNavbar = ({ apiUrl }) => {
 
   const handleSelectUserName = (userName) => {
     setSelectedUserName(userName);
+    setSelectedUsers(prevSelectedUsers => [...prevSelectedUsers, userName]);
     closeAllModals(); // Close the search modal after selecting a user
   };
 
@@ -99,13 +100,13 @@ const VerNavbar = ({ apiUrl }) => {
       </div>
       <div className="user-data">
         <ul style={{ paddingLeft: 0 }}>
-          {selectedUserName && ( // Render only if selectedUserName is not null or undefined
-            <li>
-              <div className={`user-box ${selectedUserName === selectedUser ? 'selected' : ''}`} onClick={() => handleUserClick(selectedUserName)}>
-                <p>{selectedUserName}</p>
+          {selectedUsers.map((user, index) => (
+            <li key={index}>
+              <div className={`user-box ${user === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(user)}>
+                <p>{user}</p>
               </div>
             </li>
-          )}
+          ))}
         </ul>
       </div>
 
