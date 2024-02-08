@@ -15,7 +15,10 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
         searchType = 'uid';
       } else if (searchInput.includes(' ')) {
         searchType = 'user';
-      } else {
+      }else if (searchInput.includes('@')) {
+        searchType = 'email';
+      }
+       else {
         searchType = 'group';
       }
       console.log('Search Type:', searchType);
@@ -26,8 +29,13 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
       } else if (searchType === 'uid') {
         url = `http://localhost:3001/api/findNameByUid/${searchInput}`;
       } else if (searchType === 'user') {
-        url = `http://localhost:3001/api/findNameByName/${searchInput}`;
-      } else {
+        url = `http://localhost:3001/api/findNameByUid/${searchInput}`;
+      }
+      else if (searchType === 'email') {
+        url = `http://localhost:3001/api/findNameByUid/${searchInput}`;
+      } 
+      
+      else {
         url = `http://localhost:3001/api/findGroupNameByIdOrName?name=${searchInput}`;
       }
       console.log('API URL:', url);
@@ -39,7 +47,11 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
         console.log('Riju:', data);
         if (data.groupName) {
           setSearchResults([data.groupName]);
-        } else {
+        }
+        else if(data.name){
+          setSearchResults([data.name]);
+        }  
+        else {
           setSearchResults(['No user or group found']); // Or handle the case where no user or group is found
         }
       } else {
