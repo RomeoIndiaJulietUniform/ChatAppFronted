@@ -1,9 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../CompStyles/SearchModal.css'; // Import your CSS file for styling
+import { useAuth0 } from '@auth0/auth0-react';
 
 const SearchModal = ({ closeModal, onSelectUserName }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [currUid, setCurrUid] = useState('');
+  const { user } = useAuth0(); // Invoke useAuth0 as a function
+
+  useEffect(() => {
+    if (user) {
+      // Fetch UID based on email and name once user is authenticated
+      fetchUidByEmailAndName(user.email, user.name);
+    }
+  }, [user]); // Add user as dependency
+
+  const fetchUidByEmailAndName = async (email, name) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/checkUidByEmailAndName?email=${email}&name=${name}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.uid) {
+          setCurrUid(data.uid); // Corrected typo here
+          console.log('Overlord actual maintaining flight level 550', data.uid);
+        } else {
+          console.error('No user found'); // Or handle the case where no user is found
+        }
+      } else {
+        console.error('Failed to fetch UID:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching UID:', error);
+    }
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -52,6 +81,8 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
     }
   };
 
+  console.log('Stay Frosty', currUid);
+
   const handleUploadUser = async (userName) => {
     try {
       const response = await fetch('http://localhost:3001/api/user/contact', {
@@ -60,9 +91,9 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          uid: 'XBWSckLXwCYp2hW6',
-          name: userName, // This is the selected user name from search results
-          contactId: '5555555555555555', // You need to replace this with the contact's uid
+          uid: currUid,
+          name: userName,
+          contactId: '5555555555555555',
         }),
       });
       if (response.ok) {
@@ -81,7 +112,7 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
 
   const handleSelectUser = (userName) => {
     onSelectUserName(userName);
-    handleUploadUser(userName); 
+    handleUploadUser(userName);
     closeModal();
   };
 
@@ -104,12 +135,16 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
           <button type="submit">Search</button>
         </form>
         <div className="search-results">
-          {searchResults.map((result, index) => (
-            <div key={index}>
-              <p>{result}</p>
-              <button onClick={() => handleSelectUser(result)}>Select</button> {/* Fixed the onClick event */}
-            </div>
-          ))}
+          {searchResults.length > 0 ? (
+            searchResults.map((result, index) => (
+              <div key={index}>
+                <p>{result}</p>
+                <button onClick={() => handleSelectUser(result)}>Select</button>
+              </div>
+            ))
+          ) : (
+            <p>No results found</p>
+          )}
         </div>
       </div>
     </div>
