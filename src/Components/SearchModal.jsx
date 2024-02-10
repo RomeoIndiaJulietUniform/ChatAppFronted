@@ -9,8 +9,9 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
   const { user } = useAuth0();
   const [isUid, setIsUid] = useState(false);
   const [uidInput, setUidInput] = useState('');
-  const [isInputUid, setIsInputUid] = useState(true);
+  const [isInputUid, setIsInputUid] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [uidName, setUidName] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -111,12 +112,14 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
     e.preventDefault();
     if (uidInput.length === 12 || uidInput.length === 16) {
       try {
-        const response = await fetch(`http://localhost:3001/api/checkUid/${uidInput}`);
+        const response = await fetch(`http://localhost:3001/api/findNameByUid/${uidInput}`);
         if (response.ok) {
           const result = await response.json();
           console.log('Result:', result);
-          console.log('Bravo Oscar Mike, Reinforcement coming')
-          setIsInputUid(true);
+          console.log('Bravo Oscar Mike, Reinforcement coming');
+          if(result.name === userName){
+            setIsInputUid(true);
+          } 
         } else {
           setIsInputUid(false);
           console.error('Invalid UID');
