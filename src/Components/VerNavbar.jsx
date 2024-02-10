@@ -27,6 +27,7 @@ const VerNavbar = ({ apiUrl }) => {
   const [selectedUserName, setSelectedUserName] = useState('');
   const [selectedOption,setSelectedOption] = useState('');
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -122,7 +123,8 @@ const VerNavbar = ({ apiUrl }) => {
 
       {isAddChatModalOpen && <AddChatModal closeModal={closeAllModals} />}
       {isSearchModalOpen && <SearchModal closeModal={closeAllModals} onSelectUserName={handleSelectUserName} />}
-      {isAddUidModalOpen && <AddUidModal closeModal={closeAllModals} />}
+      {isAddUidModalOpen && <AddUidModal closeModal={closeModal}/>}
+
     </div>
   );
 };
