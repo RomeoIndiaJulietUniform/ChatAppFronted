@@ -6,14 +6,17 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [currUid, setCurrUid] = useState('');
-  const { user } = useAuth0(); // Invoke useAuth0 as a function
+  const { user } = useAuth0();
+  const [isUid, setIsUid] = useState(false);
+  const [uidInput, setUidInput] = useState('');
+  const [isInputUid, setIsInputUid] = useState(true);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   useEffect(() => {
     if (user) {
-      // Fetch UID based on email and name once user is authenticated
       fetchUidByEmailAndName(user.email, user.name);
     }
-  }, [user]); // Add user as dependency
+  }, [user]);
 
   const fetchUidByEmailAndName = async (email, name) => {
     try {
@@ -21,10 +24,10 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
       if (response.ok) {
         const data = await response.json();
         if (data.uid) {
-          setCurrUid(data.uid); // Corrected typo here
-          console.log('Overlord actual maintaining flight level 550', data.uid);
+          setCurrUid(data.uid);
+          console.log('UID:', data.uid);
         } else {
-          console.error('No user found'); // Or handle the case where no user is found
+          console.error('No user found');
         }
       } else {
         console.error('Failed to fetch UID:', response.statusText);
@@ -40,8 +43,10 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
       let searchType = '';
       if (searchInput.length === 12) {
         searchType = 'groupUid';
+        setIsUid(true);
       } else if (searchInput.length === 16) {
         searchType = 'uid';
+        setIsUid(true);
       } else if (searchInput.includes(' ')) {
         searchType = 'user';
       } else if (searchInput.includes('@')) {
@@ -49,7 +54,6 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
       } else {
         searchType = 'group';
       }
-      console.log('Search Type:', searchType);
 
       let url = '';
       if (searchType === 'groupUid') {
@@ -59,19 +63,17 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
       } else {
         url = `http://localhost:3001/api/findGroupNameByIdOrName?name=${searchInput}`;
       }
-      console.log('API URL:', url);
 
       const response = await fetch(url);
-      console.log('Fetch Response:', response);
       if (response.ok) {
+        setSearchPerformed(true);
         const data = await response.json();
-        console.log('Riju:', data);
         if (data.groupName) {
           setSearchResults([data.groupName]);
         } else if (data.name) {
           setSearchResults([data.name]);
         } else {
-          setSearchResults(['No user or group found']); // Or handle the case where no user or group is found
+          setSearchResults(['No user or group found']);
         }
       } else {
         console.error('Failed to fetch data:', response.statusText);
@@ -80,8 +82,6 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
       console.error('Error searching:', error);
     }
   };
-
-  console.log('Stay Frosty', currUid);
 
   const handleUploadUser = async (userName) => {
     try {
@@ -93,20 +93,40 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
         body: JSON.stringify({
           uid: currUid,
           name: userName,
-          contactId: '5555555555555555',
+          contactId: uidInput,
         }),
       });
       if (response.ok) {
         const result = await response.json();
         console.log('Contact added successfully:', result);
-        // Optionally, you can handle success here, maybe show a message or update UI
       } else {
         console.error('Failed to add contact:', response.statusText);
-        // Optionally, handle failure here, maybe show an error message
       }
     } catch (error) {
       console.error('Error adding contact:', error);
-      // Optionally, handle error here, maybe show an error message
+    }
+  };
+
+  const handleUid = async (e) => {
+    e.preventDefault();
+    if (uidInput.length === 12 || uidInput.length === 16) {
+      try {
+        const response = await fetch(`http://localhost:3001/api/checkUid/${uidInput}`);
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Result:', result);
+          console.log('Bravo Oscar Mike, Reinforcement coming')
+          setIsInputUid(true);
+        } else {
+          setIsInputUid(false);
+          console.error('Invalid UID');
+        }
+      } catch (error) {
+        console.error('Error while fetching UID:', error);
+      }
+    } else {
+      setIsInputUid(false);
+      console.error('Invalid UID length');
     }
   };
 
@@ -133,13 +153,30 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <button type="submit">Search</button>
-        </form>
+          </form>
+          {!isUid && searchPerformed && (
+            <form onSubmit={handleUid}>
+              <input
+                type="text"
+                id="uidInput"
+                name="uidInput"
+                value={uidInput}
+                onChange={(e) => setUidInput(e.target.value)}
+                placeholder="Enter UID"
+              />
+              <button type="submit">Submit</button>
+            </form>
+          )}
         <div className="search-results">
           {searchResults.length > 0 ? (
             searchResults.map((result, index) => (
               <div key={index}>
                 <p>{result}</p>
-                <button onClick={() => handleSelectUser(result)}>Select</button>
+                {isInputUid ? (
+                  <button onClick={() => handleSelectUser(result)}>Select</button>
+                ) : (
+                  <button disabled>Select</button>
+                )}
               </div>
             ))
           ) : (
