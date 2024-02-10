@@ -123,7 +123,7 @@ const VerNavbar = ({ apiUrl }) => {
 
       {isAddChatModalOpen && <AddChatModal closeModal={closeAllModals} />}
       {isSearchModalOpen && <SearchModal closeModal={closeAllModals} onSelectUserName={handleSelectUserName} />}
-      {isAddUidModalOpen && <AddUidModal closeModal={closeModal}/>}
+      {isAddUidModalOpen && <AddUidModal closeModal={closeAllModals}/>}
 
     </div>
   );
