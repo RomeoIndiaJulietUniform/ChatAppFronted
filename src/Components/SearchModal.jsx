@@ -11,7 +11,6 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
   const [uidInput, setUidInput] = useState('');
   const [isInputUid, setIsInputUid] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
-  const [checkUsername, setCheckUsername] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -73,6 +72,12 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
       if (response.ok) {
         setSearchPerformed(true);
         const data = await response.json();
+
+      if(searchType === 'uid' || searchType === 'groupUid'){
+       
+        setIsInputUid(true);
+
+      }
         if (data.groupName) {
           setSearchResults([data.groupName]);
         } else if (data.name) {
@@ -137,14 +142,12 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
             console.log('Negative, Tango Echo X-Ray Tango');
           }
         } else {
-          setIsInputUid(false);
           console.error('Invalid UID');
         }
       } catch (error) {
         console.error('Error while fetching UID:', error);
       }
     } else {
-      setIsInputUid(false);
       console.error('Invalid UID length');
     }
   };
