@@ -122,7 +122,20 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
           const result = await response.json();
           console.log('Result:', result);
           console.log('Bravo Oscar Mike, Reinforcement coming');
-          setCheckUsername(result.name);
+          const searchString = JSON.stringify(searchResults[0]);
+          const checkname = '"' + result.name + '"';
+          console.log('searchResultString type and data:');
+          console.log('Type:', typeof searchString);
+          console.log('Data:', searchString);
+          console.log('checkUsername type and data:');
+          console.log('Type:', typeof checkname);
+          console.log('Data:', checkname);
+          if (checkname === searchString) {
+            setIsInputUid(true);
+            console.log('Positive, Tango Echo X-Ray Tango');
+          } else {
+            console.log('Negative, Tango Echo X-Ray Tango');
+          }
         } else {
           setIsInputUid(false);
           console.error('Invalid UID');
@@ -134,36 +147,8 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
       setIsInputUid(false);
       console.error('Invalid UID length');
     }
-
-    checkContactName();
-    };
+  };
   
-// Assuming searchResults is an array and checkUsername is a string
-
-const  checkContactName= () =>{
-  // Extracting the string from the array
-const searchString = JSON.stringify(searchResults[0]); // Assuming there's only one string in the array
-
-const checkname = '"' + checkUsername + '"';
-
-// Log searchResultString type and data
-console.log('searchResultString type and data:');
-console.log('Type:', typeof searchString);
-console.log('Data:', searchString);
-
-// Log checkUsername type and data
-console.log('checkUsername type and data:');
-console.log('Type:', typeof checkname);
-console.log('Data:', checkname);
-
-if (checkname === searchString) {
-    setIsInputUid(true);
-    console.log('Positive, Tango Echo X-Ray Tango');
-} else {
-    console.log('Negative, Tango Echo X-Ray Tango');
-}
-
-}
 
 
 
