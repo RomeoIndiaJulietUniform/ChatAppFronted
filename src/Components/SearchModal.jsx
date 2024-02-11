@@ -9,8 +9,9 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
   const { user } = useAuth0();
   const [isUid, setIsUid] = useState(false);
   const [uidInput, setUidInput] = useState('');
-  const [isInputUid, setIsInputUid] = useState(true);
+  const [isInputUid, setIsInputUid] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [checkUsername, setCheckUsername] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -111,16 +112,17 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
     }
   };
 
+
   const handleUid = async (e) => {
     e.preventDefault();
     if (uidInput.length === 12 || uidInput.length === 16) {
       try {
-        const response = await fetch(`http://localhost:3001/api/checkUid/${uidInput}`);
+        const response = await fetch(`http://localhost:3001/api/findNameByUid/${uidInput}`);
         if (response.ok) {
           const result = await response.json();
           console.log('Result:', result);
-          console.log('Bravo Oscar Mike, Reinforcement coming')
-          setIsInputUid(true);
+          console.log('Bravo Oscar Mike, Reinforcement coming');
+          setCheckUsername(result.name);
         } else {
           setIsInputUid(false);
           console.error('Invalid UID');
@@ -132,7 +134,38 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
       setIsInputUid(false);
       console.error('Invalid UID length');
     }
-  };
+
+    checkContactName();
+    };
+  
+// Assuming searchResults is an array and checkUsername is a string
+
+const  checkContactName= () =>{
+  // Extracting the string from the array
+const searchString = JSON.stringify(searchResults[0]); // Assuming there's only one string in the array
+
+const checkname = '"' + checkUsername + '"';
+
+// Log searchResultString type and data
+console.log('searchResultString type and data:');
+console.log('Type:', typeof searchString);
+console.log('Data:', searchString);
+
+// Log checkUsername type and data
+console.log('checkUsername type and data:');
+console.log('Type:', typeof checkname);
+console.log('Data:', checkname);
+
+if (checkname === searchString) {
+    setIsInputUid(true);
+    console.log('Positive, Tango Echo X-Ray Tango');
+} else {
+    console.log('Negative, Tango Echo X-Ray Tango');
+}
+
+}
+
+
 
 
   const handleSelectUser = (userName) => {
