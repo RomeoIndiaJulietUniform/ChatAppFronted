@@ -9,8 +9,10 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
   const { user } = useAuth0();
   const [isUid, setIsUid] = useState(false);
   const [uidInput, setUidInput] = useState('');
+  const [uidgrpInput, setUidgrpInput] = useState('');
   const [isInputUid, setIsInputUid] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [grpFlag,setGrpFlag] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -40,38 +42,52 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
+       
       let searchType = '';
-      if (searchInput.length === 12) {
-        searchType = 'groupUid';
-        setIsUid(true);
+      if (/\d/.test(searchInput)) {
+          // If searchInput contains any number
+          if (searchInput.length === 12) {
+              searchType = 'groupUid';
+              setIsUid(true);
+          }
       } else if (searchInput.length === 16) {
-        searchType = 'uid';
-        setIsUid(true);
+          searchType = 'uid';
+          setIsUid(true);
       } else if (searchInput.includes(' ')) {
-        searchType = 'user';
+          searchType = 'user';
       } else if (searchInput.includes('@')) {
-        searchType = 'email';
+          searchType = 'email';
       } else {
-        searchType = 'group';
+          searchType = 'group';
       }
+
 
       let url = '';
       if (searchType === 'groupUid') {
         url = `http://localhost:3001/api/findGroupNameByIdOrName?groupId=${searchInput}`;
       } else if (searchType === 'uid' || searchType === 'user' || searchType === 'email') {
         url = `http://localhost:3001/api/findNameByUid/${searchInput}`;
-      } else {
+      } else if( searchType === 'group') {
         url = `http://localhost:3001/api/findGroupNameByIdOrName?name=${searchInput}`;
       }
 
-      if(searchType === 'groupUid' || searchType === 'uid' ){
+      if(searchType === 'groupUid'){
+
+        setUidgrpInput(searchInput);
+        
+        setGrpFlag(true);
+      }
+      else if(searchType === 'uid'){
+
         setUidInput(searchInput);
+        
       }
 
       const response = await fetch(url);
       if (response.ok) {
         setSearchPerformed(true);
         const data = await response.json();
+        console.log('Good to hear, Falcon 2. Keep your eyes peeled',data);
 
       if(searchType === 'uid' || searchType === 'groupUid'){
        
@@ -80,6 +96,7 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
       }
         if (data.groupName) {
           setSearchResults([data.groupName]);
+          console.log('Good to hear, Falcon 2. Keep your eyes peeled',data.groupName);
         } else if (data.name) {
           setSearchResults([data.name]);
         } else {
@@ -93,7 +110,7 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
     }
   };
 
-  const handleUploadUserAndUserToGroup = async (userName) => {
+  const uploadUserContact = async (userName) => {
     try {
       // Upload user contact
       const contactResponse = await fetch('http://localhost:3001/api/user/contact', {
@@ -107,49 +124,79 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
           contactId: uidInput,
         }),
       });
+  
       if (contactResponse.ok) {
-        const result = await contactResponse.json();
-        console.log('Contact added successfully:', result);
+        const contactResult = await contactResponse.json();
+        console.log('Contact added successfully:', contactResult);
+        return true; // Indicate success
       } else {
         console.error('Failed to add contact:', contactResponse.statusText);
+        return false; // Indicate failure
       }
+    } catch (error) {
+      console.error('Error uploading user contact:', error);
+      return false; // Indicate failure
+    }
+  };
   
+  const uploadUserToGroup = async (userName) => {
+    try {
       // Upload user to group
-      const groupResponse = await fetch('http://localhost:3001/api/addUserToGroup', {
+      const groupResponse = await fetch('http://localhost:3001/uploadGroupInfoToContact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userName: userName,
           userUid: currUid,
-          groupUid: uidInput,
+          userName: userName,
+          groupUid: uidgrpInput,
         }),
       });
+  
       if (groupResponse.ok) {
         const groupResult = await groupResponse.json();
         console.log('User added to group successfully:', groupResult);
+        return true; // Indicate success
       } else {
         console.error('Failed to add user to group:', groupResponse.statusText);
+        return false; // Indicate failure
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error uploading user to group:', error);
+      return false; // Indicate failure
     }
   };
   
 
 
+
+
   const handleUid = async (e) => {
     e.preventDefault();
+    let response;
     if (uidInput.length === 12 || uidInput.length === 16) {
       try {
-        const response = await fetch(`http://localhost:3001/api/findNameByUid/${uidInput}`);
+        if (uidInput.length === 16) {
+          response = await fetch(`http://localhost:3001/api/findNameByUid/${uidInput}`);
+        } else {
+          response = await fetch(`http://localhost:3001/api/findGroupNameByIdOrName?groupId=${uidInput}`);
+        }
         if (response.ok) {
           const result = await response.json();
           console.log('Result:', result);
           console.log('Bravo Oscar Mike, Reinforcement coming');
           const searchString = JSON.stringify(searchResults[0]);
-          const checkname = '"' + result.name + '"';
+
+          let checkname;
+          
+          if(uidInput.length === 16){
+            checkname = '"' + result.name + '"';
+          }
+          else if(uidInput.length === 12){
+            checkname = '"' + result.groupName + '"';
+          }
+          
           console.log('searchResultString type and data:');
           console.log('Type:', typeof searchString);
           console.log('Data:', searchString);
@@ -179,7 +226,15 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
 
   const handleSelectUser = (userName) => {
     onSelectUserName(userName);
-    handleUploadUserAndUserToGroup(userName);
+
+    console.log('UNGOC ETA 5 min', grpFlag);
+    if(grpFlag){
+      uploadUserToGroup(userName);
+    }
+    else{
+      uploadUserContact(userName);
+    }
+    
     closeModal();
   };
 
