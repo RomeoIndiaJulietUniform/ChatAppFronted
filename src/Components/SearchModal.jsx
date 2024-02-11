@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../CompStyles/SearchModal.css'; // Import your CSS file for styling
 import { useAuth0 } from '@auth0/auth0-react';
 
-const SearchModal = ({ closeModal, onSelectUserName }) => {
+const SearchModal = ({ closeModal, onSelectUserName  }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [currUid, setCurrUid] = useState('');
@@ -62,6 +62,10 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
         url = `http://localhost:3001/api/findNameByUid/${searchInput}`;
       } else {
         url = `http://localhost:3001/api/findGroupNameByIdOrName?name=${searchInput}`;
+      }
+
+      if(searchType === 'groupUid' || searchType === 'uid' ){
+        setUidInput(searchInput);
       }
 
       const response = await fetch(url);
@@ -129,6 +133,7 @@ const SearchModal = ({ closeModal, onSelectUserName }) => {
       console.error('Invalid UID length');
     }
   };
+
 
   const handleSelectUser = (userName) => {
     onSelectUserName(userName);

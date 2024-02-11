@@ -12,13 +12,7 @@ import '../CompStyles/VerNavbar.css';
 Modal.setAppElement('#root');
 
 const VerNavbar = ({ apiUrl }) => {
-  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  const [contactText, setContactText] = useState('');
-  const [groupsText, setGroupsText] = useState('');
-  const [profileText, setProfileText] = useState('');
-  const [profileImagePath, setProfileImagePath] = useState('');
-  const [contacts, setContacts] = useState([]);
-  const [groups, setGroups] = useState([]);
+  const { user, isAuthenticated } = useAuth0();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isAddChatModalOpen, setIsAddChatModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -26,27 +20,39 @@ const VerNavbar = ({ apiUrl }) => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [selectedUserName, setSelectedUserName] = useState('');
   const [selectedOption,setSelectedOption] = useState('');
-
+  const [currUid, setCurrUid] = useState('');
+  const [fetchedNames, setFetchedNames] = useState([]); // State to store fetched names
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(apiUrl);
+    handleNameCall(currUid); 
+  }, [currUid]);
+
+  useEffect(() => {
+    if (user) {
+      fetchUidByEmailAndName(user.email, user.name);
+    }
+  }, [user]);
+
+  const fetchUidByEmailAndName = async (email, name) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/checkUidByEmailAndName?email=${email}&name=${name}`);
+      if (response.ok) {
         const data = await response.json();
-
-        setContactText(data.contactText);
-        setGroupsText(data.groupsText);
-        setProfileText(data.profileText);
-        setProfileImagePath(data.profileImagePath);
-        setContacts(data.contacts);
-        setGroups(data.groups);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+        if (data.uid) {
+          setCurrUid(data.uid);
+          console.log('UID:', data.uid);
+        } else {
+          console.error('No user found');
+        }
+      } else {
+        console.error('Failed to fetch UID:', response.statusText);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching UID:', error);
+    }
+  };
 
-    fetchData();
-  }, [apiUrl]);
+console.log('Flight ready for takeoff', currUid);
 
   const handleUserClick = (userName) => {
     setSelectedOption(userName);
@@ -82,6 +88,21 @@ const VerNavbar = ({ apiUrl }) => {
     closeAllModals(); // Close the search modal after selecting a user
   };
 
+  const handleNameCall = async (currUid) => {
+    try {
+      const response = await fetch(`http://localhost:3001/fetch-names/${currUid}`);
+      const data = await response.json();
+      console.log('Bro u so queit', currUid);
+      setFetchedNames(data.names);
+      console.log('see there the glowing CIA man',data);
+      console.log('data.names',data.names);
+    } catch (error) {
+      console.error('Error fetching names:', error);
+    }
+  };
+  
+
+  
   return (
     <div className="ver-navbar">
       <div className='feat'>
@@ -100,11 +121,20 @@ const VerNavbar = ({ apiUrl }) => {
         </div>
       </div>
       <div className="user-data">
+        {console.log('User Data:', selectedUsers)} {/* Logging the user-data */}
         <ul style={{ paddingLeft: 0 }}>
           {selectedUsers.map((user, index) => (
             <li key={index}>
               <div className={`user-box ${user === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(user)}>
                 <p>{user}</p>
+              </div>
+            </li>
+          ))}
+          {/* Render fetched names */}
+          {fetchedNames.map((name, index) => (
+            <li key={index}>
+              <div className={`user-box ${name === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(name)}>
+                <p>{name}</p>
               </div>
             </li>
           ))}
@@ -124,7 +154,6 @@ const VerNavbar = ({ apiUrl }) => {
       {isAddChatModalOpen && <AddChatModal closeModal={closeAllModals} />}
       {isSearchModalOpen && <SearchModal closeModal={closeAllModals} onSelectUserName={handleSelectUserName} />}
       {isAddUidModalOpen && <AddUidModal closeModal={closeAllModals}/>}
-
     </div>
   );
 };
