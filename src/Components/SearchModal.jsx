@@ -93,9 +93,10 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
     }
   };
 
-  const handleUploadUser = async (userName) => {
+  const handleUploadUserAndUserToGroup = async (userName) => {
     try {
-      const response = await fetch('http://localhost:3001/api/user/contact', {
+      // Upload user contact
+      const contactResponse = await fetch('http://localhost:3001/api/user/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,16 +107,36 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
           contactId: uidInput,
         }),
       });
-      if (response.ok) {
-        const result = await response.json();
+      if (contactResponse.ok) {
+        const result = await contactResponse.json();
         console.log('Contact added successfully:', result);
       } else {
-        console.error('Failed to add contact:', response.statusText);
+        console.error('Failed to add contact:', contactResponse.statusText);
+      }
+  
+      // Upload user to group
+      const groupResponse = await fetch('http://localhost:3001/api/addUserToGroup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: userName,
+          userUid: currUid,
+          groupUid: uidInput,
+        }),
+      });
+      if (groupResponse.ok) {
+        const groupResult = await groupResponse.json();
+        console.log('User added to group successfully:', groupResult);
+      } else {
+        console.error('Failed to add user to group:', groupResponse.statusText);
       }
     } catch (error) {
-      console.error('Error adding contact:', error);
+      console.error('Error:', error);
     }
   };
+  
 
 
   const handleUid = async (e) => {
@@ -158,7 +179,7 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
 
   const handleSelectUser = (userName) => {
     onSelectUserName(userName);
-    handleUploadUser(userName);
+    handleUploadUserAndUserToGroup(userName);
     closeModal();
   };
 
