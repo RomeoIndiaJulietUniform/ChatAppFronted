@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth0 } from '@auth0/auth0-react';
-import Modal from 'react-modal';
 import { FaPlus, FaSearch } from 'react-icons/fa';
 import AddChatModal from './AddChatModal';
 import SearchModal from './SearchModal';
@@ -9,19 +8,18 @@ import AddUidModal from './AddUidModal';
 import LogoutModal from './LogoutModal';
 import '../CompStyles/VerNavbar.css';
 
-Modal.setAppElement('#root');
 
-const VerNavbar = ({ apiUrl }) => {
+const VerNavbar = ({ onSelectUserName}) => {
   const { user, isAuthenticated } = useAuth0();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isAddChatModalOpen, setIsAddChatModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isAddUidModalOpen, setIsAddUidModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const [selectedUserName, setSelectedUserName] = useState('');
   const [selectedOption,setSelectedOption] = useState('');
   const [currUid, setCurrUid] = useState('');
   const [fetchedNames, setFetchedNames] = useState([]); // State to store fetched names
+  
 
   useEffect(() => {
     handleNameCall(currUid); 
@@ -56,6 +54,7 @@ console.log('Flight ready for takeoff', currUid);
 
   const handleUserClick = (userName) => {
     setSelectedOption(userName);
+    onSelectUserName(userName);
     console.log('Selected User:', userName);
   };
 
@@ -83,7 +82,7 @@ console.log('Flight ready for takeoff', currUid);
   };
 
   const handleSelectUserName = (userName) => {
-    setSelectedUserName(userName);
+    
     setSelectedUsers(prevSelectedUsers => [...prevSelectedUsers, userName]);
     closeAllModals(); // Close the search modal after selecting a user
   };
@@ -158,8 +157,6 @@ console.log('Flight ready for takeoff', currUid);
   );
 };
 
-VerNavbar.propTypes = {
-  apiUrl: PropTypes.string.isRequired,
-};
+
 
 export default VerNavbar;

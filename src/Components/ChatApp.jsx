@@ -9,6 +9,14 @@ const ChatApp = ({ userEmail }) => {
   const [selectedUserName, setSelectedUserName] = useState('');
   const [showNoUidModal, setShowNoUidModal] = useState(false);
 
+
+  const handleSelectedUser = (userName) => {
+    setSelectedUserName(userName);
+    console.log('Overlord Actual Nikolai is free', selectedUserName);
+  };
+
+
+
   useEffect(() => {
     // Fetch logic to check if userEmail is present in MongoDB
     const checkUserEmailInMongoDB = async () => {
@@ -43,7 +51,7 @@ const ChatApp = ({ userEmail }) => {
 
   return (
     <div className='chat-Container'>
-      <VerNavbar apiUrl="http://localhost:5173/ChatWindow" setSelectedUserName={setSelectedUserName} />
+      <VerNavbar onSelectUserName={handleSelectedUser}  />
       <ChatWindow selectedUserName={selectedUserName} />
 
       {console.log('showNoUidModal:', showNoUidModal)}
