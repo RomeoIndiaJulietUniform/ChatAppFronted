@@ -50,9 +50,11 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
               searchType = 'groupUid';
               setIsUid(true);
           }
-      } else if (searchInput.length === 16) {
+       else if (searchInput.length === 16) {
           searchType = 'uid';
           setIsUid(true);
+
+       }   
       } else if (searchInput.includes(' ')) {
           searchType = 'user';
       } else if (searchInput.includes('@')) {
@@ -92,6 +94,8 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
       if(searchType === 'uid' || searchType === 'groupUid'){
        
         setIsInputUid(true);
+
+        
 
       }
         if (data.groupName) {
@@ -142,7 +146,7 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
   const uploadUserToGroup = async (userName) => {
     try {
       // Upload user to group
-      const groupResponse = await fetch('http://localhost:3001/uploadGroupInfoToContact', {
+      const groupResponse = await fetch('http://localhost:3001/api/user/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -222,12 +226,14 @@ const SearchModal = ({ closeModal, onSelectUserName  }) => {
   
 
 
-
+  console.log('Factor 1', isUid);
+  console.log('Factor 3', searchPerformed);
 
   const handleSelectUser = (userName) => {
     onSelectUserName(userName);
 
     console.log('UNGOC ETA 5 min', grpFlag);
+    console.log('Factor 4', uidInput);
     if(grpFlag){
       uploadUserToGroup(userName);
     }
