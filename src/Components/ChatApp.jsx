@@ -5,6 +5,7 @@ import ChatWindow from './ChatWindow';
 import NoUidModal from './NoUidModal';
 import '../CompStyles/ChatApp.css';
 
+
 const ChatApp = ({ userEmail }) => {
   const [selectedUserName, setSelectedUserName] = useState([]);
   const [showNoUidModal, setShowNoUidModal] = useState(false);

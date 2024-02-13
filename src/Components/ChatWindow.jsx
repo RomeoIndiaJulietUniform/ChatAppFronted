@@ -1,28 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../CompStyles/ChatWindow.css';
 import { FaGithub, FaLinkedin, FaGoogle, FaCopyright } from 'react-icons/fa';
+import io from 'socket.io-client';
 
 const ChatWindow = (props) => {
   const { user } = useAuth0();
   const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState([]);
+  const [inputMessage, setInputMessage] = useState('');
   const [curUid, setCurUid] = useState('');
   const [contactname, setContactname] = useState('');
   const [contactuid, setContactuid] = useState('');
+  const prevReceiverId = useRef('');
 
   useEffect(() => {
-    // Use props.selectedUserName for any side effects or initialization
+    if (props.selectedUserName && props.selectedUserName.length > 0) {
+      setContactname(props.selectedUserName[0][0]);
+      setContactuid(props.selectedUserName[0][1]);
+    }
   }, [props.selectedUserName]);
 
   useEffect(() => {
     setCurUid(props.currUid);
   }, [props.currUid]);
 
-  console.log('Final data :', props.selectedUserName);
+  useEffect(() => {
+    const socket = io('http://localhost:3001'); // Replace with your server URL
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    // Listening for incoming messages
+    socket.on('message', (message) => {
+      console.log('Received message:', message);
+      setMessages([...messages, message]);
+    });
+
+    return () => {
+      // Disconnect socket only if receiver ID has changed
+      if (contactuid !== prevReceiverId.current) {
+        socket.disconnect();
+      }
+    };
+  }, [contactuid]); // Listen for changes in contactuid
 
   const handleSendMessage = () => {
-    // Add your logic to send a message
+    const socket = io('http://localhost:3001'); // Replace with your server URL
+    socket.emit('privateMessage', {
+      message: inputMessage,
+      senderId: curUid,
+      receiverId: contactuid
+    });
+    setInputMessage(''); // Clear input after sending message
   };
 
   // Render chat window content only if props.selectedUserName is selected
