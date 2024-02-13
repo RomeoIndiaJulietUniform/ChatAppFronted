@@ -7,15 +7,19 @@ const ChatWindow = (props) => {
   const { user } = useAuth0();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState([]);
-  const [uid,setUid] = useState('');
+  const [curUid, setCurUid] = useState('');
+  const [contactname, setContactname] = useState('');
+  const [contactuid, setContactuid] = useState('');
 
   useEffect(() => {
     // Use props.selectedUserName for any side effects or initialization
   }, [props.selectedUserName]);
 
-  useEffect(()=>{
-    setUid(props.currUid);
-  },[props.currUid]);
+  useEffect(() => {
+    setCurUid(props.currUid);
+  }, [props.currUid]);
+
+  console.log('Final data :', props.selectedUserName);
 
   const handleSendMessage = () => {
     // Add your logic to send a message
@@ -48,24 +52,24 @@ const ChatWindow = (props) => {
         </div>
       ) : (
         <div className="contact-section">
-        <h2>Contact Me</h2>
-        <div className="icon-container">
-          <a href="https://github.com/RomeoIndiaJulietUniform" target="_blank" rel="noopener noreferrer">
-            <FaGithub className="icon" />
-          </a>
-          <a href="https://www.linkedin.com/in/riju-mondal-137686244/" target="_blank" rel="noopener noreferrer">
-            <FaLinkedin className="icon" />
-          </a>
-          <a href="mailto:contact.rijumondal@gmail.com">
-            <FaGoogle className="icon" />
-          </a>
+          <h2>Contact Me</h2>
+          <div className="icon-container">
+            <a href="https://github.com/RomeoIndiaJulietUniform" target="_blank" rel="noopener noreferrer">
+              <FaGithub className="icon" />
+            </a>
+            <a href="https://www.linkedin.com/in/riju-mondal-137686244/" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin className="icon" />
+            </a>
+            <a href="mailto:contact.rijumondal@gmail.com">
+              <FaGoogle className="icon" />
+            </a>
+          </div>
+          <h1>The site is dedicated in fond remembrance of Sir Philo Farnsworth</h1>
+          <div className="copyright-container">
+            <FaCopyright className="copyright-logo" />
+            <div className="copyright-text">2024 Riju Mondal. All Rights Reserved. </div>
+          </div>
         </div>
-        <h1>The site is dedicated in fond remembrance of Sir Philo Farnsworth</h1>
-        <div className="copyright-container">
-          <FaCopyright className="copyright-logo" />
-          <div className="copyright-text">2024 Riju Mondal. All Rights Reserved. </div>
-        </div>
-      </div>
       )}
     </div>
   );

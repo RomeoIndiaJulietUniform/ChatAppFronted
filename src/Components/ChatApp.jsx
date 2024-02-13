@@ -6,12 +6,12 @@ import NoUidModal from './NoUidModal';
 import '../CompStyles/ChatApp.css';
 
 const ChatApp = ({ userEmail }) => {
-  const [selectedUserName, setSelectedUserName] = useState('');
+  const [selectedUserName, setSelectedUserName] = useState([]);
   const [showNoUidModal, setShowNoUidModal] = useState(false);
   const [currUid,setCurrUid] = useState('');
 
-  const handleSelectedUser = (userName) => {
-    setSelectedUserName(userName);
+  const handleSelectedUser = (userName, uid) => {
+    setSelectedUserName([ userName, uid ]);
   };
 
   const handleCurrUid = (uid) =>{

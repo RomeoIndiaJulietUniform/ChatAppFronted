@@ -51,12 +51,11 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
     }
   };
 
-console.log('Flight ready for takeoff', currUid);
 
-  const handleUserClick = (userName) => {
+  const handleUserClick = (userName,uid) => {
     setSelectedOption(userName);
-    onSelectUserName(userName);
-    console.log('Selected User:', userName);
+    onSelectUserName([userName,uid]);
+
   };
 
   const openAddChatModal = () => {
@@ -83,9 +82,7 @@ console.log('Flight ready for takeoff', currUid);
   };
 
   const handleSelectUserName = (userName, finalUid) => {
-    console.log('Final UID:', finalUid);
-    console.log('Selected User:', userName);
-    
+
     // Create a new array containing both userName and finalUid
     const newUser = [userName, finalUid];
 
@@ -97,12 +94,14 @@ console.log('Flight ready for takeoff', currUid);
 };
 
 
+
+
   const handleNameCall = async (currUid) => {
     try {
       const response = await fetch(`http://localhost:3001/fetch-names/${currUid}`);
       const data = await response.json();
       console.log('Bro u so queit', currUid);
-      setFetchedNames(data.names);
+      setFetchedNames(data.names,data.uid);
       console.log('see there the glowing CIA man',data);
       console.log('data.names',data.names);
     } catch (error) {
@@ -130,26 +129,28 @@ console.log('Flight ready for takeoff', currUid);
         </div>
       </div>
       <div className="user-data">
-      {console.log('User Data:', selectedUsers)} {/* Logging the user-data */}
-      <ul style={{ paddingLeft: 0 }}>
-        {selectedUsers.map((user, index) => (
+        {/* Logging the user-data */}
+        {console.log('User Data come come come comeaway :', selectedUsers)}
+        <ul style={{ paddingLeft: 0 }}>
+          {/* Render selected users */}
+          {selectedUsers.map((user, index) => (
+            <li key={index}>
+              <div className={`user-box ${user[0] === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(user[0], user[1])}>
+                <p>{user[0]}</p> {/* Display the username */}
+              </div>
+            </li>
+          ))}
+          {/* Render fetched names */}
+                  {fetchedNames.map(({ name, uid }, index) => (
           <li key={index}>
-            <div className={`user-box ${user[0] === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(user[0])}>
-              <p>{user[0]}</p> {/* Display the username */}
-            </div>
-          </li>
-        ))}
-        {/* Render fetched names */}
-        {fetchedNames.map((name, index) => (
-          <li key={index}>
-            <div className={`user-box ${name === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(name)}>
+            <div className={`user-box ${name === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(name, uid)}>
               <p>{name}</p>
             </div>
           </li>
         ))}
-      </ul>
-    </div>
 
+        </ul>
+      </div>
 
       <div>
         {isAuthenticated && (
