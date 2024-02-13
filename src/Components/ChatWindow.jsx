@@ -4,13 +4,18 @@ import '../CompStyles/ChatWindow.css';
 import { FaGithub, FaLinkedin, FaGoogle, FaCopyright } from 'react-icons/fa';
 
 const ChatWindow = (props) => {
-  const { logout, user } = useAuth0();
+  const { user } = useAuth0();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState([]);
+  const [uid,setUid] = useState('');
 
   useEffect(() => {
     // Use props.selectedUserName for any side effects or initialization
   }, [props.selectedUserName]);
+
+  useEffect(()=>{
+    setUid(props.currUid);
+  },[props.currUid]);
 
   const handleSendMessage = () => {
     // Add your logic to send a message

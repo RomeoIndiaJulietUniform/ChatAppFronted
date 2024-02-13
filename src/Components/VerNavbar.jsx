@@ -9,7 +9,7 @@ import LogoutModal from './LogoutModal';
 import '../CompStyles/VerNavbar.css';
 
 
-const VerNavbar = ({ onSelectUserName}) => {
+const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
   const { user, isAuthenticated } = useAuth0();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isAddChatModalOpen, setIsAddChatModalOpen] = useState(false);
@@ -22,7 +22,8 @@ const VerNavbar = ({ onSelectUserName}) => {
   
 
   useEffect(() => {
-    handleNameCall(currUid); 
+    handleNameCall(currUid);
+    onSelectCurruid(currUid); 
   }, [currUid]);
 
   useEffect(() => {

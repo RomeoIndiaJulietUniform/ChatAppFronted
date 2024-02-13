@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../CompStyles/SearchModal.css'; // Import your CSS file for styling
 import { useAuth0 } from '@auth0/auth0-react';
 
-const SearchModal = ({ closeModal, onSelectUserName }) => {
+const SearchModal = ({ closeModal, onSelectUserName}) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [currUid, setCurrUid] = useState('');
