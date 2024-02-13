@@ -13,6 +13,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
   const [isInputUid, setIsInputUid] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [grpFlag, setGrpFlag] = useState(false);
+  const [finalUid,setFinalUid] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -69,9 +70,11 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
 
       if (searchType === 'groupUid') {
         setUidgrpInput(searchInput);
+        setFinalUid(searchInput);
         setGrpFlag(true);
       } else if (searchType === 'uid') {
         setUidInput(searchInput);
+        setFinalUid(searchInput);
       }
 
       const response = await fetch(url);
@@ -161,6 +164,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
     e.preventDefault();
     let response;
     if (uidInput.length === 12 || uidInput.length === 16) {
+      setFinalUid(uidInput);
       try {
         if (uidInput.length === 16) {
           response = await fetch(`http://localhost:3001/api/findNameByUid/${uidInput}`);
@@ -193,8 +197,9 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
     }
   };
 
+
   const handleSelectUser = (userName) => {
-    onSelectUserName(userName);
+    onSelectUserName(userName, finalUid);
 
     if (grpFlag) {
       uploadUserToGroup(userName);
@@ -204,6 +209,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
     
     closeModal();
   };
+  
 
   return (
     <div className="modal-overlay">

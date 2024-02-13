@@ -82,11 +82,20 @@ console.log('Flight ready for takeoff', currUid);
     setIsLogoutModalOpen(false);
   };
 
-  const handleSelectUserName = (userName) => {
+  const handleSelectUserName = (userName, finalUid) => {
+    console.log('Final UID:', finalUid);
+    console.log('Selected User:', userName);
     
-    setSelectedUsers(prevSelectedUsers => [...prevSelectedUsers, userName]);
-    closeAllModals(); // Close the search modal after selecting a user
-  };
+    // Create a new array containing both userName and finalUid
+    const newUser = [userName, finalUid];
+
+    // Update selectedUsers state by appending the new array
+    setSelectedUsers(prevSelectedUsers => [...prevSelectedUsers, newUser]);
+
+    // Close the search modal after selecting a user
+    closeAllModals();
+};
+
 
   const handleNameCall = async (currUid) => {
     try {
@@ -121,25 +130,26 @@ console.log('Flight ready for takeoff', currUid);
         </div>
       </div>
       <div className="user-data">
-        {console.log('User Data:', selectedUsers)} {/* Logging the user-data */}
-        <ul style={{ paddingLeft: 0 }}>
-          {selectedUsers.map((user, index) => (
-            <li key={index}>
-              <div className={`user-box ${user === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(user)}>
-                <p>{user}</p>
-              </div>
-            </li>
-          ))}
-          {/* Render fetched names */}
-          {fetchedNames.map((name, index) => (
-            <li key={index}>
-              <div className={`user-box ${name === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(name)}>
-                <p>{name}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {console.log('User Data:', selectedUsers)} {/* Logging the user-data */}
+      <ul style={{ paddingLeft: 0 }}>
+        {selectedUsers.map((user, index) => (
+          <li key={index}>
+            <div className={`user-box ${user[0] === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(user[0])}>
+              <p>{user[0]}</p> {/* Display the username */}
+            </div>
+          </li>
+        ))}
+        {/* Render fetched names */}
+        {fetchedNames.map((name, index) => (
+          <li key={index}>
+            <div className={`user-box ${name === selectedOption ? 'selected' : ''}`} onClick={() => handleUserClick(name)}>
+              <p>{name}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+
 
       <div>
         {isAuthenticated && (
