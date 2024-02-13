@@ -11,6 +11,9 @@ const ChatApp = ({ userEmail }) => {
   const [showNoUidModal, setShowNoUidModal] = useState(false);
   const [currUid,setCurrUid] = useState('');
 
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const handleSelectedUser = (userName, uid) => {
     setSelectedUserName([ userName, uid ]);
   };
@@ -23,7 +26,7 @@ const ChatApp = ({ userEmail }) => {
     // Fetch logic to check if userEmail is present in MongoDB
     const checkUserEmailInMongoDB = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/checkUserEmail/${userEmail}`, {
+        const response = await fetch(`${API_BASE_URL}/api/checkUserEmail/${userEmail}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

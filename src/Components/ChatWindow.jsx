@@ -13,6 +13,8 @@ const ChatWindow = (props) => {
   const [contactuid, setContactuid] = useState('');
   const prevReceiverId = useRef('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (props.selectedUserName && props.selectedUserName.length > 0) {
       setContactname(props.selectedUserName[0][0]);
@@ -25,36 +27,30 @@ const ChatWindow = (props) => {
   }, [props.currUid]);
 
   useEffect(() => {
-    const socket = io('http://localhost:3001'); // Replace with your server URL
+    const socket = io(API_BASE_URL); // Replace with your server URL
     socket.on('connect', () => {
       console.log('Connected to server');
     });
 
     // Listening for incoming messages
-    socket.on('message', (message) => {
+    socket.on('privateMessage', (message) => {
       console.log('Received message:', message);
       setMessages([...messages, message]);
     });
 
-    return () => {
-      // Disconnect socket only if receiver ID has changed
-      if (contactuid !== prevReceiverId.current) {
-        socket.disconnect();
-      }
-    };
   }, [contactuid]); // Listen for changes in contactuid
 
   const handleSendMessage = () => {
-    const socket = io('http://localhost:3001'); // Replace with your server URL
+    const socket = io(API_BASE_URL); // Replace with your server URL
     socket.emit('privateMessage', {
       message: inputMessage,
       senderId: curUid,
       receiverId: contactuid
     });
-    setInputMessage(''); // Clear input after sending message
+    setInputMessage(''); 
   };
 
-  // Render chat window content only if props.selectedUserName is selected
+  
   return (
     <div className='window'>
       {props.selectedUserName ? (

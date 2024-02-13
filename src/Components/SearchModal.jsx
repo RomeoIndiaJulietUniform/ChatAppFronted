@@ -15,6 +15,8 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
   const [grpFlag, setGrpFlag] = useState(false);
   const [finalUid,setFinalUid] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (user) {
       fetchUidByEmailAndName(user.email, user.name);
@@ -23,7 +25,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
 
   const fetchUidByEmailAndName = async (email, name) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/checkUidByEmailAndName?email=${email}&name=${name}`);
+      const response = await fetch(`${API_BASE_URL}/api/checkUidByEmailAndName?email=${email}&name=${name}`);
       if (response.ok) {
         const data = await response.json();
         if (data.uid) {
@@ -61,11 +63,11 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
 
       let url = '';
       if (searchType === 'groupUid') {
-        url = `http://localhost:3001/api/findGroupNameByIdOrName?groupId=${searchInput}`;
+        url = `${API_BASE_URL}/api/findGroupNameByIdOrName?groupId=${searchInput}`;
       } else if (searchType === 'uid' || searchType === 'user' || searchType === 'email') {
-        url = `http://localhost:3001/api/findNameByUid/${searchInput}`;
+        url = `${API_BASE_URL}/api/findNameByUid/${searchInput}`;
       } else if (searchType === 'group') {
-        url = `http://localhost:3001/api/findGroupNameByIdOrName?name=${searchInput}`;
+        url = `${API_BASE_URL}/api/findGroupNameByIdOrName?name=${searchInput}`;
       }
 
       if (searchType === 'groupUid') {
@@ -101,7 +103,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
 
   const uploadUserContact = async (userName) => {
     try {
-      const contactResponse = await fetch('http://localhost:3001/api/user/contact', {
+      const contactResponse = await fetch(`${API_BASE_URL}/api/user/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +135,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
       console.log('User Name Something:', userName);
       console.log('Group UID Something:', uidgrpInput);
   
-      const groupResponse = await fetch('http://localhost:3001/api/user/contact', {
+      const groupResponse = await fetch(`${API_BASE_URL}/api/user/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -167,9 +169,9 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
       setFinalUid(uidInput);
       try {
         if (uidInput.length === 16) {
-          response = await fetch(`http://localhost:3001/api/findNameByUid/${uidInput}`);
+          response = await fetch(`${API_BASE_URL}/api/findNameByUid/${uidInput}`);
         } else {
-          response = await fetch(`http://localhost:3001/api/findGroupNameByIdOrName?groupId=${uidInput}`);
+          response = await fetch(`${API_BASE_URL}/api/findGroupNameByIdOrName?groupId=${uidInput}`);
         }
         if (response.ok) {
           const result = await response.json();

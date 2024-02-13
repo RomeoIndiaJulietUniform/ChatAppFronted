@@ -5,6 +5,8 @@ import '../CompStyles/NoUidModal.css';
 const NoUidModal = ({ onRequestClose }) => {
   const [uid, setUid] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   // Function to generate a random UID
   const generateRandomUid = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -26,7 +28,7 @@ const NoUidModal = ({ onRequestClose }) => {
 
   const handleUploadUserWithUid = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/uploadUser', {
+      const response = await fetch(`${API_BASE_URL}/api/uploadUser`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

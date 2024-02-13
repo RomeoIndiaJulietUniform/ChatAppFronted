@@ -8,12 +8,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 const App = () => {
   const { user, isLoading, error } = useAuth0();
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     const uploadUserToMongoDB = async () => {
       try {
         if (!user) return; // Ensure user exists before trying to upload
 
-        const response = await fetch('http://localhost:3001/api/uploadUser', {
+        const response = await fetch(`${API_BASE_URL}/api/uploadUser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

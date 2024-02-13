@@ -19,6 +19,9 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
   const [selectedOption,setSelectedOption] = useState('');
   const [currUid, setCurrUid] = useState('');
   const [fetchedNames, setFetchedNames] = useState([]); // State to store fetched names
+
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
 
   const fetchUidByEmailAndName = async (email, name) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/checkUidByEmailAndName?email=${email}&name=${name}`);
+      const response = await fetch(`${API_BASE_URL}/api/checkUidByEmailAndName?email=${email}&name=${name}`);
       if (response.ok) {
         const data = await response.json();
         if (data.uid) {
@@ -98,7 +101,7 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
 
   const handleNameCall = async (currUid) => {
     try {
-      const response = await fetch(`http://localhost:3001/fetch-names/${currUid}`);
+      const response = await fetch(`${API_BASE_URL}/fetch-names/${currUid}`);
       const data = await response.json();
       console.log('Bro u so queit', currUid);
       setFetchedNames(data.names,data.uid);

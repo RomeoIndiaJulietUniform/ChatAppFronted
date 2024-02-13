@@ -7,6 +7,8 @@ const AddUidModal = ({ closeModal }) => {
   const [uid, setUid] = useState('');
   const [newUid, setNewUid] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     if (isAuthenticated) {
       // Fetch UID based on email and name once user is authenticated
@@ -16,7 +18,7 @@ const AddUidModal = ({ closeModal }) => {
 
   const fetchUidByEmailAndName = async (email, name) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/checkUidByEmailAndName?email=${email}&name=${name}`);
+      const response = await fetch(`${API_BASE_URL}/api/checkUidByEmailAndName?email=${email}&name=${name}`);
       if (response.ok) {
         const data = await response.json();
         if (data.uid) {
@@ -41,7 +43,7 @@ const AddUidModal = ({ closeModal }) => {
       }
 
       // Add logic here to save the new UID
-      const response = await fetch('http://localhost:3001/api/replaceUid', {
+      const response = await fetch(`${API_BASE_URL }/api/replaceUid`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

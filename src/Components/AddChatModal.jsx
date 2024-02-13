@@ -6,6 +6,8 @@ const AddChatModal = ({ closeModal }) => {
   const [memberIdentifier, setMemberIdentifier] = useState('');
   const [groupUid, setGroupUid] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const handleGroupNameChange = (e) => {
     setGroupName(e.target.value);
   };
@@ -35,7 +37,7 @@ const AddChatModal = ({ closeModal }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3001/api/createGroup', {
+      const response = await fetch(`${API_BASE_URL}/api/createGroup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
