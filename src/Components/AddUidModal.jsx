@@ -76,9 +76,9 @@ const AddUidModal = ({ closeModal }) => {
   }
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content add-uid-modal">
-        <span className="close" onClick={closeModal}>
+    <div className="custom-modal-overlay">
+      <div className="custom-modal-content customized-add-uid-modal">
+        <span className="custom-close" onClick={closeModal}>
           &times;
         </span>
         <h2>UID Details</h2>
@@ -99,6 +99,7 @@ const AddUidModal = ({ closeModal }) => {
       </div>
     </div>
   );
+  
 };
 
 export default AddUidModal;

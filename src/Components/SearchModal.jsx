@@ -230,6 +230,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
             name="searchInput"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Full Name, UID, and Email"
           />
           <button type="submit">Search</button>
           </div>
@@ -251,8 +252,8 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
         <div className="search-results">
           {searchResults.length > 0 ? (
             searchResults.map((result, index) => (
-              <div key={index}>
-                <p>{result}</p>
+              <div className='res' key={index}>
+                <p>Found: {result}</p>
                 {isInputUid ? (
                   <button onClick={() => handleSelectUser(result)}>Select</button>
                 ) : (
