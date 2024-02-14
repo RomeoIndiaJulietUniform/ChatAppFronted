@@ -11,9 +11,15 @@ const ChatWindow = (props) => {
   const [curUid, setCurUid] = useState('');
   const [contactname, setContactname] = useState('');
   const [contactuid, setContactuid] = useState('');
+  const [len,setLen] = useState('');
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [socket, setSocket] = useState(null); // State to hold the socket connection
+
+  useEffect(() => {
+    setLen(props.selectedUserName.length);
+  }, [props.selectedUserName]);
+  
 
   useEffect(() => {
     if (props.selectedUserName && props.selectedUserName.length > 0) {
@@ -66,7 +72,7 @@ const ChatWindow = (props) => {
 
   return (
     <div className='window'>
-      {props.selectedUserName ? (
+      {len  != 0 ? (
         <div className='chat-container'>
           <div className='chat-header'>
             <h3>{props.selectedUserName}</h3>
