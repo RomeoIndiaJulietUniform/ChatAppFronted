@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../CompStyles/ChatWindow.css';
 import { FaGithub, FaLinkedin, FaGoogle, FaCopyright } from 'react-icons/fa';
 import io from 'socket.io-client';
 
 const ChatWindow = (props) => {
-  const { user } = useAuth0();
+  const { user } = useAuth0(); // Get user information using useAuth0
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [curUid, setCurUid] = useState('');
   const [contactname, setContactname] = useState('');
   const [contactuid, setContactuid] = useState('');
-  const prevReceiverId = useRef('');
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const [socket, setSocket] = useState(null); // State to hold the socket connection
 
   useEffect(() => {
     if (props.selectedUserName && props.selectedUserName.length > 0) {
@@ -27,30 +27,43 @@ const ChatWindow = (props) => {
   }, [props.currUid]);
 
   useEffect(() => {
-    const socket = io(API_BASE_URL); // Replace with your server URL
-    socket.on('connect', () => {
-      console.log('Connected to server');
-    });
+    // Establish socket connection
+    const newSocket = io(API_BASE_URL);
+    console.log('Socket connected:', newSocket);
+    setSocket(newSocket);
 
+    // Disconnect socket when component unmounts
+    return () => {
+      newSocket.disconnect();
+      console.log('Socket disconnected');
+    };
+  }, []); // Run only once when component mounts
+
+  useEffect(() => {
     // Listening for incoming messages
-    socket.on('privateMessage', (message) => {
-      console.log('Received message:', message);
-      setMessages([...messages, message]);
-    });
-
-  }, [contactuid]); // Listen for changes in contactuid
+    if (socket) {
+      socket.on('privateMessage', (message) => {
+        console.log('Received message:', message);
+        setMessages(prevMessages => [...prevMessages, message]);
+      });
+    }
+  }, [socket]);
 
   const handleSendMessage = () => {
-    const socket = io(API_BASE_URL); // Replace with your server URL
-    socket.emit('privateMessage', {
-      message: inputMessage,
-      senderId: curUid,
-      receiverId: contactuid
-    });
-    setInputMessage(''); 
+    if (socket) {
+      const newMessage = {
+        message: inputMessage,
+        senderId: curUid,
+        receiverId: contactuid
+      };
+      console.log('Sending message:', newMessage);
+      setMessages(prevMessages => [...prevMessages, newMessage]); // Update state with the sent message
+
+      socket.emit('privateMessage', newMessage);
+      setInputMessage(''); 
+    }
   };
 
-  
   return (
     <div className='window'>
       {props.selectedUserName ? (
@@ -60,8 +73,8 @@ const ChatWindow = (props) => {
           </div>
           <div className='chat-messages'>
             {messages.map((message, index) => (
-              <div key={index} className={message.sender === user.name ? 'sent' : 'received'}>
-                <p>{message.text}</p>
+              <div key={index} className={message.senderId === curUid ? 'sent' : 'received'}>
+                <p>{message.message}</p>
               </div>
             ))}
           </div>

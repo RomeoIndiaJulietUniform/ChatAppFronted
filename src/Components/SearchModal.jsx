@@ -221,7 +221,9 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
         </span>
         <h2>Search Users or Groups</h2>
         <form onSubmit={handleSearch}>
+          <div className='first-query'>
           <label htmlFor="searchInput">Enter UID, Name, or Group Name:</label>
+          <div className='input-search'>
           <input
             type="text"
             id="searchInput"
@@ -230,6 +232,8 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <button type="submit">Search</button>
+          </div>
+          </div>
           </form>
           {!isUid && searchPerformed && (
             <form onSubmit={handleUid}>
