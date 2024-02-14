@@ -12,7 +12,7 @@
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: #ffeeba; 
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
@@ -63,16 +63,22 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
+  background-color: #f2f2f2; 
 }
 
 .search-modal button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #555;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.search-modal button:active {
+  background-color: #1d1c1c;
 }
 
 .search-results {
@@ -87,3 +93,8 @@
   font-weight: bold;
 }
 
+.search-results button[disabled] {
+  opacity: 0.5; 
+  cursor: not-allowed; 
+  background-color: #ccc;
+}
