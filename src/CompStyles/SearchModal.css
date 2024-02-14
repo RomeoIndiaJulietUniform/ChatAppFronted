@@ -25,13 +25,14 @@
 }
 
 .close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: relative;
+  align-self: flex-end; /* Align to the end of its container (flex-end) */
   cursor: pointer;
   font-size: 24px;
   color: #333;
+  z-index: 1000; /* Ensure it's above the modal content */
 }
+
 
 .first-query {
   display: flex;
@@ -97,4 +98,19 @@
   opacity: 0.5; 
   cursor: not-allowed; 
   background-color: #ccc;
+}
+
+
+.invalid-uid {
+  border: 1px solid red;
+  animation: glow 0.5s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px red;
+  }
+  to {
+    box-shadow: 0 0 20px red;
+  }
 }

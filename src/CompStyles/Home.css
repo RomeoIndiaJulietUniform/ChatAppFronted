@@ -2,6 +2,7 @@
   background-color: rgba(233, 233, 233, 0.822);
 }
 
+
 .para {
   display: flex;
   flex-direction: column;
@@ -123,91 +124,23 @@
 }
 
 
-/* Media Queries for responsiveness */
+/* Media Queries */
 
-/* Mobile Phones */
-@media screen and (max-width: 480px) {
-  .para {
-    font-size: 1.5rem;
-  }
-
-  .clickable-input {
-    width: 300px;
-    height: 30px;
-    position: relative;
-    border-radius: 30px;
-    font-size: 1rem;
-  }
+/* For mobile devices */
+@media only screen and (max-width: 600px) {
   
-  
-  #submit-btn {
-    position: absolute;
-    top: 2.2px;
-    right: 0px;
-    height: 80%;
-    width: 30%;
-    background-color: #101111;
-    color: rgba(233, 233, 233, 0.822);
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 30px;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-weight: bold;
-  }
-
-
-  .container{
-    margin-top: 90%;
-    margin-left: 5%;
-  }
-
- 
 }
 
-/* Tablets, including iPad */
-@media screen and (min-width: 481px) and (max-width: 768px) {
-  .para {
-    font-size: 2rem;
-  }
 
-
-  .clickable-input {
-    width: 600px;
-    height: 60px;
-    position: relative;
-    border-radius: 30px;
-    font-size: 1rem;
-  }
-  
-  
-  #submit-btn {
-    position: absolute;
-    top: 2.2px;
-    right: 0px;
-    height: 85%;
-    width: 30%;
-    background-color: #101111;
-    color: rgba(233, 233, 233, 0.822);
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 30px;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-weight: bold;
-  }
-
-
-  .container{
-    margin-top: 75%;
-    margin-left: 5%;
-  }
+/* For tablets */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
  
+ 
+
+}
+
+/* For large screens */
+@media only screen and (min-width: 1025px) {
+  
 }
 

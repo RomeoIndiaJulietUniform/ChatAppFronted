@@ -15,6 +15,7 @@ const SearchModal = ({ closeModal, onSelectUserName}) => {
   const [grpFlag, setGrpFlag] = useState(false);
   const [finalUid,setFinalUid] = useState('');
 
+
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {

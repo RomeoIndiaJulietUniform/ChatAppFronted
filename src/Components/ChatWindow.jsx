@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../CompStyles/ChatWindow.css';
-import { FaGithub, FaLinkedin, FaGoogle, FaCopyright } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaGoogle, FaCopyright, FaArrowLeft } from 'react-icons/fa'; // Import FaArrowLeft
 import io from 'socket.io-client';
 
 const ChatWindow = (props) => {
@@ -12,6 +12,7 @@ const ChatWindow = (props) => {
   const [contactname, setContactname] = useState('');
   const [contactuid, setContactuid] = useState('');
   const [len,setLen] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [socket, setSocket] = useState(null); // State to hold the socket connection
@@ -55,6 +56,20 @@ const ChatWindow = (props) => {
     }
   }, [socket]);
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    handleResize(); 
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleSendMessage = () => {
     if (socket) {
       const newMessage = {
@@ -63,11 +78,15 @@ const ChatWindow = (props) => {
         receiverId: contactuid
       };
       console.log('Sending message:', newMessage);
-      setMessages(prevMessages => [...prevMessages, newMessage]); // Update state with the sent message
+      setMessages(prevMessages => [...prevMessages, newMessage]); 
 
       socket.emit('privateMessage', newMessage);
       setInputMessage(''); 
     }
+  };
+
+  const handleBackButtonClick = () => {
+    window.location.reload(); 
   };
 
   return (
@@ -75,7 +94,8 @@ const ChatWindow = (props) => {
       {len  != 0 ? (
         <div className='chat-container'>
           <div className='chat-header'>
-            <h3>{props.selectedUserName}</h3>
+          {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
+            <h3>{contactname}</h3>
           </div>
           <div className='chat-messages'>
             {messages.map((message, index) => (
@@ -109,9 +129,11 @@ const ChatWindow = (props) => {
             </a>
           </div>
           <h1>The site is dedicated in fond remembrance of Sir Philo Farnsworth</h1>
+          <div className='footer'>
           <div className="copyright-container">
             <FaCopyright className="copyright-logo" />
             <div className="copyright-text">2024 Riju Mondal. All Rights Reserved. </div>
+          </div>
           </div>
         </div>
       )}

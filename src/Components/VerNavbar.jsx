@@ -127,7 +127,7 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
         </div>
         <div className="nav-item" onClick={openAddUidModal}>
           <span role="img" aria-label="uid-icon" className='uid-icon'>
-            Create or Change New UID
+            Change UID
           </span>
         </div>
       </div>

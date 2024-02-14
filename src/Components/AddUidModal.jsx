@@ -84,7 +84,7 @@ const AddUidModal = ({ closeModal }) => {
         <h2>UID Details</h2>
         <p>Email: {user.email}</p>
         <p>Name: {user.name}</p>
-        <label htmlFor="uidInput">Enter New UID:</label>
+        <h3>Enter New UID:</h3>
         <input
           type="text"
           id="uidInput"
@@ -93,9 +93,11 @@ const AddUidModal = ({ closeModal }) => {
           onChange={(e) => setNewUid(e.target.value)}
         />
         <p>Current UID: {uid}</p>
+        {newUid.length == 16  ? (
         <button type="button" onClick={handleSaveUid}>
           Save UID
-        </button>
+        </button>):(<button disabled>Save UID</button>)
+        }
       </div>
     </div>
   );

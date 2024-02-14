@@ -64,8 +64,8 @@ const AddChatModal = ({ closeModal }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="-new-modal-overlay">
+      <div className="new-modal-content">
         <span className="close" onClick={closeModal}>
           &times;
         </span>
@@ -95,8 +95,8 @@ const AddChatModal = ({ closeModal }) => {
             value={groupUid}
             onChange={handleGroupUidChange}
           />
-          <button type="button" onClick={handleGenerateUid}>Generate UID</button>
-          <button type="submit">Create Group</button>
+          <button type="button" onClick={handleGenerateUid} className='uidb'>Generate UID</button>
+          <button type="submit" className='crtgrp'>Create Group</button>
         </form>
       </div>
     </div>

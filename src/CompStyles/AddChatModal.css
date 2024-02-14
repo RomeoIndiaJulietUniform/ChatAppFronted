@@ -1,29 +1,76 @@
-/* AddChatModal.css (or modify VerNavbar.css) */
+/* AddChatModal.css */
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
-  }
-  
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
+.-new-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.new-modal-content {
+  background-color: #ffeeba; 
+  padding: 40px; 
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  max-width: 600px; 
+  width: 90%;
+  align-items: center;
+}
+
+.new-modal-content .close {
+  position: relative;
+  cursor: pointer;
+}
+
+.new-modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px; /* Add space below h2 */
+}
+
+.new-modal-content form {
+  display: grid;
+  grid-gap: 20px; /* Add space between form elements */
+}
+
+.new-modal-content label {
+  font-weight: bold;
+}
+
+.new-modal-content input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #f2f2f2;
+  border-radius: 5px;
+}
+
+.new-modal-content button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.new-modal-content button:hover {
+  background-color: #0056b3;
+}
+
+.new-modal-content .uidb {
+  background-color: #28a745;
+}
+
+.new-modal-content .uidb:hover {
+  background-color: #218838;
+}
+
+.new-modal-content .crtgrp {
+  margin-top: 20px; /* Add space above .crtgrp */
+}

@@ -1,29 +1,28 @@
-// ChatApp.jsx
 import React, { useState, useEffect } from 'react';
 import VerNavbar from './VerNavbar';
 import ChatWindow from './ChatWindow';
 import NoUidModal from './NoUidModal';
 import '../CompStyles/ChatApp.css';
 
-
 const ChatApp = ({ userEmail }) => {
   const [selectedUserName, setSelectedUserName] = useState([]);
   const [showNoUidModal, setShowNoUidModal] = useState(false);
-  const [currUid,setCurrUid] = useState('');
-
+  const [currUid, setCurrUid] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [showChatWindow, setShowChatWindow] = useState(false);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleSelectedUser = (userName, uid) => {
-    setSelectedUserName([ userName, uid ]);
+    setSelectedUserName([userName, uid]);
+    setShowChatWindow(true);
   };
 
-  const handleCurrUid = (uid) =>{
-        setCurrUid(uid);
-  }
+  const handleCurrUid = (uid) => {
+    setCurrUid(uid);
+  };
 
   useEffect(() => {
-    // Fetch logic to check if userEmail is present in MongoDB
     const checkUserEmailInMongoDB = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/checkUserEmail/${userEmail}`, {
@@ -35,7 +34,6 @@ const ChatApp = ({ userEmail }) => {
 
         if (response.ok) {
           const data = await response.json();
-
           const emailExists = data.emailExists;
 
           if (!emailExists) {
@@ -50,13 +48,22 @@ const ChatApp = ({ userEmail }) => {
     };
 
     checkUserEmailInMongoDB();
-  }, [userEmail]); // Run whenever userEmail changes
+  }, [userEmail]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className='chat-Container'>
-      <VerNavbar onSelectUserName={handleSelectedUser} onSelectCurruid={handleCurrUid}  />
-      <ChatWindow selectedUserName={selectedUserName} currUid ={currUid} />
-
+      { (!isMobile || !showChatWindow)  && <VerNavbar onSelectUserName={handleSelectedUser} onSelectCurruid={handleCurrUid} />}
+      {(!isMobile || showChatWindow) && <ChatWindow selectedUserName={selectedUserName} currUid={currUid} />}
       {showNoUidModal && <NoUidModal onRequestClose={() => setShowNoUidModal(false)} />}
     </div>
   );
