@@ -3,6 +3,10 @@
 }
 
 
+.main {
+  padding-top: 20px; 
+  padding-left: 5px;
+}
 
 .parallax-image {
   position: absolute;

@@ -87,13 +87,18 @@ body {
 }
 
 .login-btn button {
-    background-color: #4caf50;
+    background-color: #101111;
     color: white;
     border: none;
     cursor: pointer;
-    padding: 8px 20px;
+    padding: 15px 45px; 
     border-radius: 20px;
-    font-size: 1rem;
+    font-size: 1.2rem; 
+    transition: background-color 0.3s ease; 
+}
+
+.login-btn button:hover {
+    background-color: #494949; 
 }
 
 .login-btn {
@@ -102,6 +107,9 @@ body {
     list-style: none;
     gap: 20px;
 }
+
+
+
 
 .imgauth img {
     width: 50px;

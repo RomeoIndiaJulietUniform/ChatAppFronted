@@ -49,7 +49,7 @@ const Home = () => {
   return (
     <>
       <div className='main'>
-        <Navbar scrollRefs={scrollRefs} />
+        <Navbar className='navbar' scrollRefs={scrollRefs} />
         <div className="content">
           <p>Home</p>
           <div className="parallax-image" style={{ transform: `translateY(${Math.min(scrollPosition * 1.5, maxTranslation)}px)` }}>
