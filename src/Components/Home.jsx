@@ -12,10 +12,19 @@ const Home = () => {
   const [username, setUsername] = useState('');
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const aboutRef = useRef(null);
   const contactRef = useRef(null);
   const featureRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
 
   const scrollRefs = {
@@ -38,7 +47,7 @@ const Home = () => {
 
   return (
     <>
-      <div>
+      <div className='main'>
       <Navbar scrollRefs={scrollRefs} />
         <div className="content">
           <p>Home</p>
@@ -82,7 +91,7 @@ const Home = () => {
 
        
         <div ref={aboutRef} id="about">
-            <About />
+           <About scrollPosition={scrollPosition} /> 
           </div>
 
         <div ref={featureRef} id="feature">
