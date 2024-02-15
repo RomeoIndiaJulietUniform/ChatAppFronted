@@ -5,8 +5,8 @@ import Navbar from './Navbar.jsx';
 import About from './About.jsx';
 import Contact from './Contact.jsx';
 import Feature from './Feature.jsx';
-import { useNavigate  } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import aboutImage from '../Images/Chatapp.png'; 
 
 const Home = () => {
   const [username, setUsername] = useState('');
@@ -26,13 +26,14 @@ const Home = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  
+  const maxTranslation = 1400; 
 
   const scrollRefs = {
     aboutRef,
     contactRef,
     featureRef,
   };
-
 
   const handleClaimUsername = () => {
     console.log(`Username claimed: ${username}`);
@@ -48,9 +49,12 @@ const Home = () => {
   return (
     <>
       <div className='main'>
-      <Navbar scrollRefs={scrollRefs} />
+        <Navbar scrollRefs={scrollRefs} />
         <div className="content">
           <p>Home</p>
+          <div className="parallax-image" style={{ transform: `translateY(${Math.min(scrollPosition * 1.5, maxTranslation)}px)` }}>
+            <img src={aboutImage} alt="Parallax" />
+          </div>
 
           <div className="claim-username-container">
             <div className='container'>
@@ -89,18 +93,18 @@ const Home = () => {
 
         </div>
 
-       
+
         <div ref={aboutRef} id="about">
-           <About scrollPosition={scrollPosition} /> 
-          </div>
+          <About />
+        </div>
 
         <div ref={featureRef} id="feature">
-            <Feature />
-          </div>
-  
+          <Feature />
+        </div>
+
         <div ref={contactRef} id="contact">
-            <Contact />
-          </div>
+          <Contact />
+        </div>
 
       </div>
     </>
