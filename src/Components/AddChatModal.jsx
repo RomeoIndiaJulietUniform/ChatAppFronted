@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../CompStyles/AddChatModal.css";
 
 const AddChatModal = ({ closeModal }) => {
   const [groupName, setGroupName] = useState('');
   const [memberIdentifier, setMemberIdentifier] = useState('');
   const [groupUid, setGroupUid] = useState('');
+  const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    const isGroupNameValid = groupName.trim() !== '';
+    const isMemberIdentifierValid = memberIdentifier.includes('@');
+    const isGroupUidValid = groupUid.trim().length === 12;
+
+    setIsCreateButtonDisabled(!(isGroupNameValid && isMemberIdentifierValid && isGroupUidValid));
+  }, [groupName, memberIdentifier, groupUid]);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -96,7 +105,7 @@ const AddChatModal = ({ closeModal }) => {
             onChange={handleGroupUidChange}
           />
           <button type="button" onClick={handleGenerateUid} className='uidb'>Generate UID</button>
-          <button type="submit" className='crtgrp'>Create Group</button>
+          <button type="submit" className='crtgrp' disabled={isCreateButtonDisabled}>Create Group</button>
         </form>
       </div>
     </div>

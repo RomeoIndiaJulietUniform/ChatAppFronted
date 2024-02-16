@@ -74,3 +74,15 @@
 .new-modal-content .crtgrp {
   margin-top: 20px; /* Add space above .crtgrp */
 }
+
+
+
+.new-modal-content button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.new-modal-content button:disabled:hover {
+  background-color: #ccc;
+}
