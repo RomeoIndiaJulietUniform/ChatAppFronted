@@ -13,6 +13,7 @@ const Home = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
 
   const aboutRef = useRef(null);
   const contactRef = useRef(null);
@@ -22,8 +23,21 @@ const Home = () => {
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
     };
+
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1026 && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)));
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+
+    // Initial check for screen size
+    handleResize();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   
@@ -51,10 +65,11 @@ const Home = () => {
       <div className='main'>
         <Navbar className='navbar' scrollRefs={scrollRefs} />
         <div className="content">
-          <p>Home</p>
-          <div className="parallax-image" style={{ transform: `translateY(${Math.min(scrollPosition * 1.5, maxTranslation)}px)` }}>
-            <img src={aboutImage} alt="Parallax" />
-          </div>
+          {isLargeScreen && (
+            <div className="parallax-image" style={{ transform: `translateY(${Math.min(scrollPosition * 1.5, maxTranslation)}px)` }}>
+              <img src={aboutImage} alt="Parallax" />
+            </div>
+          )}
 
           <div className="claim-username-container">
             <div className='container'>

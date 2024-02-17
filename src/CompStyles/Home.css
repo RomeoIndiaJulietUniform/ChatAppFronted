@@ -148,28 +148,54 @@
 }
 
 
-
-
-/* Media Queries */
-
 /* For mobile devices */
 @media only screen and (max-width: 600px) {
+  .main {
+    padding-top: 10px; 
+    padding-left: 3px; 
+  }
+
+  .container {
+    margin-top: 10%; 
+    margin-left: 5%; 
+  }
+
+  .clickable-input {
+    width: 320px;
+    height: 45px;
+    position: relative;
+    border-radius: 30px;
+    font-size: 1rem;
+  }
+
+  #submit-btn {
+    height: 85%; 
+    width: 35%;
+    font-size: 0.7rem; 
+  }
+
+  .claim-username-container {
+    margin-top: 10px;
+    font-size: 1.5rem;
+  }
   
 }
-
 
 /* For tablets */
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
-     
-     .main{
-       width: 70%;
-     }
- 
+  .main {
+    width: 70%; 
+  }
 
-}
-
-/* For large screens */
-@media only screen and (min-width: 1025px) {
+  .clickable-input {
+    width: 600px;
+    height: 55px;
+    position: relative;
+    border-radius: 30px;
+    font-size: 1rem;
+  }
   
+
+ 
 }
 

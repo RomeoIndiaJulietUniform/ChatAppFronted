@@ -50,3 +50,36 @@
 .copyright-text {
   font-size: 1em;
 }
+
+
+
+
+
+/* Media Queries for Mobiles */
+@media screen and (max-width: 576px) {
+  .contact-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-section h1 {
+    font-size: 1.2rem;
+  }
+
+  .icon-container {
+    gap: 20px; 
+  }
+
+  .icon-container .icon {
+    font-size: 4rem;
+  }
+}
+
+
+/* Media Queries for Tablets */
+@media screen and (min-width: 577px) and (max-width: 992px) {
+  .icon-container {
+    gap: 150px;
+    display: flex;
+    justify-content: center;
+  }
+}
