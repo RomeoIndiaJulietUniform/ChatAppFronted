@@ -44,13 +44,14 @@ const ChatWindow = (props) => {
     if (socket) {
       socket.on('message', (message) => {
         console.log('Received message:', message.message);
-        const receiverIdLength = message.receiverId.toString().length;
-  
-        if (receiverIdLength === 16 && message.receiverId === curUid) {
+         
+        if (message.receiverId && message.receiverId.toString().length === 16 && message.receiverId === curUid) {
           setMessages(prevMessages => [...prevMessages, message]);
         } else {
           console.error('Invalid receiverId:', message.receiverId);
         }
+        
+
       });
     }
   }, [socket]);
