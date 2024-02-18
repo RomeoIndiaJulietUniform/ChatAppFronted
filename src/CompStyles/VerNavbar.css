@@ -121,16 +121,6 @@
   margin-left: 8%;
 }
 
-.white-line {
-  position: absolute;
-  margin-bottom: 20px;
-  top: 0;
-  left: 0;
-  height: 1px;
-  width: 100%;
-  background-color: white;
-}
-
 
 .imgauth {
   display: flex;
@@ -138,6 +128,12 @@
   align-items: center;
 }
 
+
+.imgauth img {
+  border-radius: 50%; 
+  width: 100px; 
+  height: 100px; 
+}
 
 
 
@@ -155,6 +151,12 @@
 
   }
 
+  .imgauth img {
+    border-radius: 50%; 
+    width: 60px; 
+    height: 60px; 
+  }
+
 }
 
 
@@ -168,8 +170,10 @@
     margin-left: 5%;
     font-size: 1.5rem;
     letter-spacing: 2px;
-    overflow-wrap: break-word; /* This property allows the text to wrap onto the next line */
+    overflow-wrap: break-word; 
 }
+
+  
  
 
 }

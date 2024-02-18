@@ -44,10 +44,17 @@ const ChatWindow = (props) => {
     if (socket) {
       socket.on('message', (message) => {
         console.log('Received message:', message.message);
-        setMessages(prevMessages => [...prevMessages, message]);
+        const receiverIdLength = message.receiverId.toString().length;
+  
+        if (receiverIdLength === 16 && message.receiverId === curUid) {
+          setMessages(prevMessages => [...prevMessages, message]);
+        } else {
+          console.error('Invalid receiverId:', message.receiverId);
+        }
       });
     }
   }, [socket]);
+  
   
   useEffect(() => {
     const handleResize = () => {
@@ -66,6 +73,7 @@ const ChatWindow = (props) => {
         receiverId: contactUid
       };
       socket.emit('sendMessage', newMessage);
+      setMessages(prevMessages => [...prevMessages, newMessage])
       setInputMessage('');
     }
   };
@@ -84,7 +92,7 @@ const ChatWindow = (props) => {
           </div>
           <div className='chat-messages'>
             {messages.map((message, index) => (
-              <p key={index} className={message.senderId === curUid ? 'sent-message' : 'received-message'}>{message.message}</p>
+              <p key={index} className={message.receiverId === curUid ?  'received-message': 'sent-message' }>{message.message}</p>
             ))}
           </div>
           <div className='chat-input'>

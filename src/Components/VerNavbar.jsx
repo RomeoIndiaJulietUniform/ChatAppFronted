@@ -18,7 +18,7 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [selectedOption,setSelectedOption] = useState('');
   const [currUid, setCurrUid] = useState('');
-  const [fetchedNames, setFetchedNames] = useState([]); // State to store fetched names
+  const [fetchedNames, setFetchedNames] = useState([]); 
 
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
