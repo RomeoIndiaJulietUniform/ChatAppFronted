@@ -1,6 +1,6 @@
 /* Contact.css */
 
-.contact-section {
+.contact-container {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
@@ -9,32 +9,31 @@
   padding: 20px;
 }
 
-.contact-section h2{
+.contact-heading {
    font-size: 2rem;
 }
 
-.contact-section h1{
+.site-dedication {
   font-size: 1.5rem;
 }
 
-.icon-container {
+.icon-wrapper {
   display: flex;
   justify-content: space-between;
   gap: 400px;
 }
 
-.icon {
+.contact-icon {
   font-size: 9rem;
   color: black;
   transition: transform 0.3s ease-in-out;
 }
 
-.icon:hover {
+.contact-icon:hover {
   transform: translateY(-10px); 
 }
 
-
-.copyright-container {
+.copyright-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,35 +50,44 @@
   font-size: 1em;
 }
 
-
-
-
-
 /* Media Queries for Mobiles */
 @media screen and (max-width: 576px) {
-  .contact-section h2 {
+  .contact-heading {
     font-size: 1.5rem;
   }
 
-  .contact-section h1 {
+  .site-dedication {
     font-size: 1.2rem;
   }
 
-  .icon-container {
-    gap: 20px; 
+  .icon-wrapper {
+    gap: 60px; 
   }
 
-  .icon-container .icon {
+  .icon-wrapper .contact-icon {
     font-size: 4rem;
+  }
+
+  .site-dedication{
+    font-size: 1rem;
   }
 }
 
-
 /* Media Queries for Tablets */
 @media screen and (min-width: 577px) and (max-width: 992px) {
-  .icon-container {
-    gap: 150px;
+  .icon-wrapper {
+    gap: 100px;
+    display: flex;
+    justify-content: center; 
+  }
+
+  .contact-container{
     display: flex;
     justify-content: center;
+    margin-left: 270px;
+  }
+
+  .site-dedication{
+    font-size: 1rem;
   }
 }

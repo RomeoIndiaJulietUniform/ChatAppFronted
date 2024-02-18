@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../CompStyles/ChatWindow.css';
-import { FaGithub, FaLinkedin, FaGoogle, FaCopyright, FaArrowLeft } from 'react-icons/fa'; // Import FaArrowLeft
+import { FaGithub, FaLinkedin, FaGoogle, FaArrowLeft } from 'react-icons/fa';
 import io from 'socket.io-client';
 
 const ChatWindow = (props) => {
-  const { user } = useAuth0(); // Get user information using useAuth0
+  const { user } = useAuth0();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [curUid, setCurUid] = useState('');
-  const [contactname, setContactname] = useState('');
-  const [contactuid, setContactuid] = useState('');
-  const [len,setLen] = useState('');
+  const [contactName, setContactName] = useState('');
+  const [contactUid, setContactUid] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  const [socket, setSocket] = useState(null); // State to hold the socket connection
-
-  useEffect(() => {
-    setLen(props.selectedUserName.length);
-  }, [props.selectedUserName]);
-  
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     if (props.selectedUserName && props.selectedUserName.length > 0) {
-      setContactname(props.selectedUserName[0][0]);
-      setContactuid(props.selectedUserName[0][1]);
+      setContactName(props.selectedUserName[0][0]);
+      setContactUid(props.selectedUserName[0][1]);
+      setShowChat(true);
+    } else {
+      setShowChat(false);
     }
   }, [props.selectedUserName]);
 
@@ -34,38 +32,28 @@ const ChatWindow = (props) => {
   }, [props.currUid]);
 
   useEffect(() => {
-    // Establish socket connection
     const newSocket = io(API_BASE_URL);
-    console.log('Socket connected:', newSocket);
     setSocket(newSocket);
 
-    // Disconnect socket when component unmounts
     return () => {
       newSocket.disconnect();
-      console.log('Socket disconnected');
     };
-  }, []); // Run only once when component mounts
+  }, []);
 
   useEffect(() => {
-    // Listening for incoming messages
     if (socket) {
-      socket.on('privateMessage', (message) => {
-        console.log('Received message:', message);
+      socket.on('message', (message) => {
+        console.log('Received message:', message.message);
         setMessages(prevMessages => [...prevMessages, message]);
       });
     }
   }, [socket]);
-
-
+  
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
+      setIsMobile(window.innerWidth <= 768);
     };
-    handleResize(); 
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -75,33 +63,28 @@ const ChatWindow = (props) => {
       const newMessage = {
         message: inputMessage,
         senderId: curUid,
-        receiverId: contactuid
+        receiverId: contactUid
       };
-      console.log('Sending message:', newMessage);
-      setMessages(prevMessages => [...prevMessages, newMessage]); 
-
-      socket.emit('privateMessage', newMessage);
-      setInputMessage(''); 
+      socket.emit('sendMessage', newMessage);
+      setInputMessage('');
     }
   };
 
   const handleBackButtonClick = () => {
-    window.location.reload(); 
+    window.location.reload();
   };
 
   return (
     <div className='window'>
-      {len  != 0 ? (
+      {showChat ? (
         <div className='chat-container'>
           <div className='chat-header'>
-          {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
-            <h3>{contactname}</h3>
+            {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
+            <h3>{contactName}</h3>
           </div>
           <div className='chat-messages'>
             {messages.map((message, index) => (
-              <div key={index} className={message.senderId === curUid ? 'sent' : 'received'}>
-                <p>{message.message}</p>
-              </div>
+              <p key={index} className={message.senderId === curUid ? 'sent-message' : 'received-message'}>{message.message}</p>
             ))}
           </div>
           <div className='chat-input'>
@@ -130,10 +113,10 @@ const ChatWindow = (props) => {
           </div>
           <h1>The site is dedicated in fond remembrance of Sir Philo Farnsworth</h1>
           <div className='footer'>
-          <div className="copyright-container">
-            <FaCopyright className="copyright-logo" />
-            <div className="copyright-text">2024 Riju Mondal. All Rights Reserved. </div>
-          </div>
+            <div className="copyright-container">
+              <span className="copyright-logo">©</span>
+              <div className="copyright-text">2024 Riju Mondal. All Rights Reserved.</div>
+            </div>
           </div>
         </div>
       )}

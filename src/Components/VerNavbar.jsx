@@ -155,7 +155,8 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
         </ul>
       </div>
 
-      <div>
+      <div className="footer-vernavbar">
+        <div className="white-line"></div>
         {isAuthenticated && (
           <article className='imgauth' onClick={openLogoutModal}>
             {user?.picture && <img src={user.picture} alt={user.name} />}

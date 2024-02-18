@@ -112,6 +112,34 @@
     font-size: 1.5rem;
 }
 
+.footer-vernavbar{
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8%;
+}
+
+.white-line {
+  position: absolute;
+  margin-bottom: 20px;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: white;
+}
+
+
+.imgauth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
 
 /* Media Queries */
 
@@ -151,4 +179,5 @@
   .ver-navbar {
     width: 30%;
   }
+  
 }

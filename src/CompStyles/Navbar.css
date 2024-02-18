@@ -1,16 +1,17 @@
 body {
     margin: 0;
     padding: 0;
-  }
+}
 
-.navbar {
+.custom-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: #333;
+
 }
 
-.imgauth {
+.custom-imgauth {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
@@ -18,10 +19,9 @@ body {
     top: 0;
     right: 0;
     margin: 10px;
-  }
+}
 
-
-.navbar-left {
+.custom-navbar-left {
     display: flex;
     align-items: center;
     background-color: white;
@@ -31,8 +31,7 @@ body {
     border: 2px solid #333;
 }
 
-
-.navbar-left h1 {
+.custom-navbar-left h1 {
     position: relative;
     font-family: 'Roboto', sans-serif;
     font-size: 1.1rem;
@@ -44,7 +43,7 @@ body {
     z-index: 1;
 }
 
-.navbar-left h1::before {
+.custom-navbar-left h1::before {
     content: '';
     position: absolute;
     top: 0;
@@ -57,36 +56,35 @@ body {
     border-radius: 20px;
 }
 
-
-.navbar-left li:hover h1::before {
+.custom-navbar-left li:hover h1::before {
     left: 0;
 }
 
-.navbar-left li:hover h1 {
+.custom-navbar-left li:hover h1 {
     color: white;
 }
 
-
-.navbar-right {
+.custom-navbar-right {
     display: flex;
     align-items: center;
 }
 
-.navbar ul {
+.custom-navbar ul {
     list-style: none;
     display: flex;
 }
 
-.navbar li {
+.custom-navbar li {
     margin-right: 20px;
 }
 
-.navbar a {
+.custom-navbar a {
     text-decoration: none;
     color: white;
 }
 
-.login-btn button {
+.custom-login-btn button {
+    position: relative;
     background-color: #101111;
     color: white;
     border: none;
@@ -97,31 +95,25 @@ body {
     transition: background-color 0.3s ease; 
 }
 
-.login-btn button:hover {
+.custom-login-btn button:hover {
     background-color: #494949; 
 }
 
-.login-btn {
+.custom-login-btn {
     display: flex;
     align-items: center;
     list-style: none;
     gap: 20px;
 }
 
-
-
-
-.imgauth img {
+.custom-imgauth img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     margin-left: 10px;
 }
 
-
-
-
-.Modal {
+.CustomModal {
     position: fixed;
     display: flex;
     justify-content: space-between;
@@ -139,19 +131,18 @@ body {
     align-items: center;
 }
 
-.Modal img{
+.CustomModal img{
     width: 140px;
     height: 140px;  
 }
 
-.Modal p{
+.CustomModal p{
     font-family: 'Roboto', sans-serif;
     font-size: 2rem;
     font-family: 'Lemon', serif;
 }
 
-
-.ModalCloseButton {
+.CustomModalCloseButton {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -162,7 +153,7 @@ body {
     color: #333;
 }
 
-.LogoutButton {
+.CustomLogoutButton {
     background-color: #ff6464;
     color: white;
     padding: 10px 15px;
@@ -172,54 +163,62 @@ body {
     margin-top: 10px;
 }
 
-
 /* Mobile Phones */
 @media screen and (max-width: 600px) {
-
-    .navbar-right li {
-        margin-right: 0px;
-    }    
-  
-    .navbar-left h1 {
-        font-size: 0.9rem;
-        font-weight: 400;
-        padding: 0%;
+    .custom-navbar-right li {
+        margin-right: px;
     }
-  
-    .Modal {
+
+    .custom-navbar-left {
+        border-radius: 20px;
+        padding: 0px;
+    }
+
+    .custom-navbar-left h1 {
+        font-size: 0.9rem; 
+    }
+
+    .CustomModal {
         gap: 8px;
         max-width: 160px;
         height: 160px;
     }
-  
-    .Modal img{
+
+    .CustomModal img{
         width: 60px;
         height: 60px;  
     }
-  
-    .Modal p{
+
+    .CustomModal p{
         font-size: 1rem;
     }
-  
-    .LogoutButton {
+
+    .CustomLogoutButton {
         padding: 5px 7px;
         margin-top: 5px;
     } 
-  }
-  
-  
-  /* Tablets, including iPad */
-  @media screen and (min-width: 577px) and (max-width: 992px) {
-  
-    .navbar-left h1 {
+}
+
+/* Tablets, including iPad */
+@media screen and (min-width: 577px) and (max-width: 992px) {
+    .custom-navbar {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+    .custom-navbar-left h1 {
         font-size: 1rem;
-        font-weight: 400;
+        font-weight: 500;
         padding: 0%;
     }
-  
-    .Modal {
+
+    .CustomModal {
         gap: 20px;
         max-width: 400px;
     }
-  }
-  
+
+    .custom-login-btn {
+        margin-left: auto;
+      }
+    
+}

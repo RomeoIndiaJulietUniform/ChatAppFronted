@@ -112,7 +112,30 @@
   font-size: 1em;
 }
 
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+}
 
+.sent-message {
+  background-color: #cce6ff; /* Light blue */
+  color: #004085; /* Dark blue text */
+  padding: 8px;
+  border-radius: 8px;
+  margin: 8px 10px; /* Add space on left and right */
+  max-width: 70%;
+  align-self: flex-start; /* Align sent messages to the left */
+}
+
+.received-message {
+  background-color: #f8d7da; /* Light red */
+  color: #721c24; /* Dark red text */
+  padding: 8px;
+  border-radius: 8px;
+  margin: 8px 10px; /* Add space on left and right */
+  max-width: 70%;
+  align-self: flex-end; /* Align received messages to the right */
+}
 /* Media Queries */
 
 /* For mobile devices */
@@ -143,6 +166,11 @@
 .chat-input input {
   font-size: 1.2rem;
 }
+
+.sent-message,
+  .received-message {
+    margin: 8px; /* Adjusted margin for smaller screens */
+  }
 
 
 }
@@ -201,6 +229,11 @@
   transform: translateY(-6px); 
 }
 
+.sent-message,
+  .received-message {
+    margin: 8px; /* Adjusted margin for smaller screens */
+  }
+
 }
 
 /* For large screens */
@@ -209,3 +242,4 @@
     width: 100%;
   }
 }
+
