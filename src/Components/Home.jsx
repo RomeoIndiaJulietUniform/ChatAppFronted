@@ -6,7 +6,7 @@ import About from './About.jsx';
 import Contact from './Contact.jsx';
 import Feature from './Feature.jsx';
 import { useNavigate } from 'react-router-dom';
-import aboutImage from '../Images/Chatapp.png'; 
+import aboutImage from '../Images/ch.png'; 
 
 const Home = () => {
   const [username, setUsername] = useState('');
