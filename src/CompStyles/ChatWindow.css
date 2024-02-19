@@ -15,7 +15,6 @@
 }
 
 
-
 .chat-header {
   display: flex;
   justify-content: center;
@@ -25,7 +24,9 @@
   width: 100%;
   height: 8vh;
   background-color: #797a2e;
+  overflow: break-word;
 }
+
 
 .chat-input button {
   height: 10vh;
@@ -251,8 +252,18 @@
 
 .sent-message,
   .received-message {
-    margin: 8px; /* Adjusted margin for smaller screens */
+    margin: 8px; 
   }
+
+  .sent-message, .received-message {
+    padding: 12px;
+    border-radius: 12px;
+    margin: 12px 8px;
+    max-width: 90%;
+    font-size: 1.3rem;
+  }
+
+
 
 }
 
@@ -261,5 +272,20 @@
   .window {
     width: 100%;
   }
+
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sent-message, .received-message {
+    padding: 16px;
+    border-radius: 16px;
+    margin: 16px 10px;
+    max-width: 80%;
+    font-size: 1.5rem;
+  }
+  
+  
 }
 

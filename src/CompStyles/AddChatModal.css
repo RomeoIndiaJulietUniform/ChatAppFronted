@@ -54,13 +54,13 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #45494d;
   color: white;
   transition: background-color 0.3s ease;
 }
 
 .new-modal-content button:hover {
-  background-color: #0056b3;
+  background-color: #637f9c;
 }
 
 .new-modal-content .uidb {
@@ -75,8 +75,6 @@
   margin-top: 20px; /* Add space above .crtgrp */
 }
 
-
-
 .new-modal-content button:disabled {
   background-color: #ccc;
   color: #666;
@@ -85,4 +83,28 @@
 
 .new-modal-content button:disabled:hover {
   background-color: #ccc;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+  .new-modal-content {
+    width: 80%;
+  }
+  
+  .new-modal-content input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .new-modal-content {
+    width: 70%;
+    padding: 20px;
+  }
+  
+  .new-modal-content input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 6px;
+  }
 }
