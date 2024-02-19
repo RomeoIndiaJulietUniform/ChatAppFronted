@@ -45,7 +45,10 @@ const ChatWindow = (props) => {
     if (socket) {
       socket.on('message', (message) => {
         console.log('Received message:', message.message);
-        setMessages(prevMessages => [...prevMessages, message]);
+        console.log('In no mans land', message.receiverId);
+        if(message.receiverId == curUid){
+          setMessages(prevMessages => [...prevMessages, message]);
+        } 
       });
     }
   }, [socket]);
@@ -68,6 +71,7 @@ const ChatWindow = (props) => {
       };
       const newConcatenatedIds = `${curUid}-${contactUid}`;
       socket.emit('sendMessage', newMessage);
+      setMessages(prevMessages => [...prevMessages, newMessage]);
       saveMessage(newConcatenatedIds, newMessage.message);
       setInputMessage('');
       setConcatenatedIds(newConcatenatedIds);
