@@ -92,7 +92,7 @@ const ChatWindow = (props) => {
   };
 
   const handleBackButtonClick = () => {
-    window.location.reload();
+    props.setShowChatWindow(false);
   };
 
   const handleKeyDown = (e) => {

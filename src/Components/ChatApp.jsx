@@ -9,7 +9,7 @@ const ChatApp = ({ userEmail }) => {
   const [showNoUidModal, setShowNoUidModal] = useState(false);
   const [currUid, setCurrUid] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [showChatWindow, setShowChatWindow] = useState(false);
+  const [showChatWindow, setShowChatWindow] = useState(false); // Add state for showChatWindow
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -62,8 +62,8 @@ const ChatApp = ({ userEmail }) => {
 
   return (
     <div className='chat-Container'>
-      { (!isMobile || !showChatWindow)  && <VerNavbar onSelectUserName={handleSelectedUser} onSelectCurruid={handleCurrUid} />}
-      {(!isMobile || showChatWindow) && <ChatWindow selectedUserName={selectedUserName} currUid={currUid} />}
+      {(!isMobile || !showChatWindow) && <VerNavbar onSelectUserName={handleSelectedUser} onSelectCurruid={handleCurrUid} />}
+      {(!isMobile || showChatWindow) && <ChatWindow selectedUserName={selectedUserName} currUid={currUid} setShowChatWindow={setShowChatWindow} />} {/* Pass setShowChatWindow as a prop */}
       {showNoUidModal && <NoUidModal onRequestClose={() => setShowNoUidModal(false)} />}
     </div>
   );
