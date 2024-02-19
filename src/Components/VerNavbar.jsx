@@ -119,11 +119,11 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
       <div className='feat'>
         <div className="nav-item" onClick={openAddChatModal}>
           <span role="img" aria-label="plus-icon" className='plusicon'>
-            ➕
+            ➕ Add Groups
           </span>
         </div>
         <div className="nav-item" onClick={openSearchModal}>
-          <FaSearch className="srchicon" />
+          <FaSearch className="srchicon" /> Search
         </div>
         <div className="nav-item" onClick={openAddUidModal}>
           <span role="img" aria-label="uid-icon" className='uid-icon'>

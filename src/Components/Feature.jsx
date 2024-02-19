@@ -1,13 +1,11 @@
-// Feature.js
 import React from 'react';
 import '../CompStyles/Feature.css';
 
 const Feature = () => {
   return (
     <div className="feature-container">
-      <div className="news-crawl">Breaking News: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      <div className="news-crawl-reverse">Latest Updates: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-      {/* Remove the Feature Content and add a line element */}
+      <div className="news-crawl"> ● React &nbsp; ● Auth0 &nbsp; ● MongoDB &nbsp; ● Express &nbsp; ● NodeJs &nbsp; ● Socket.IO &nbsp; ● WebSockets &nbsp; ● CORS</div>
+      <div className="news-crawl-reverse">  ● Socket.IO &nbsp;  ● WebSockets &nbsp; ● NodeJs &nbsp; ● Express &nbsp; ● MongoDB &nbsp; ● Auth0 &nbsp; ● React &nbsp; ● CORS</div>
       <div className="line-element"></div>
     </div>
   );

@@ -6,7 +6,7 @@ import About from './About.jsx';
 import Contact from './Contact.jsx';
 import Feature from './Feature.jsx';
 import { useNavigate } from 'react-router-dom';
-import aboutImage from '../Images/ch.png'; 
+import aboutImage from '../Images/Soap.png'; 
 
 const Home = () => {
   const [username, setUsername] = useState('');
@@ -94,11 +94,12 @@ const Home = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="clickable-input"
+                    placeholder='Why type here, when you can enter and chat your hearts out'
                   />
                   {!isAuthenticated ? (
-                    <button id="submit-btn" onClick={loginWithRedirect}>CLAIM USERNAME</button>
+                    <button id="submit-btn" onClick={loginWithRedirect}>ENTER</button>
                   ) : (
-                    <button id="submit-btn" onClick={handleClaimUsername}>CLAIM</button>
+                    <button id="submit-btn" onClick={handleClaimUsername}>ENTERED</button>
                   )}
                 </div>
               </div>

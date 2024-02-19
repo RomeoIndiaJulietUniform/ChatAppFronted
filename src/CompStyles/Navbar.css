@@ -165,18 +165,84 @@ body {
 
 /* Mobile Phones */
 @media screen and (max-width: 600px) {
+    .custom-navbar{
+        display: flex;
+        justify-content: center;
+    }
+
     .custom-navbar-right li {
-        margin-right: px;
+        margin-right: 0px;
     }
-
+    
     .custom-navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 0px;
+        background-color: white;
         border-radius: 20px;
+        height: 35px;
+        overflow: hidden;
+        border: 2px solid #333;
+        padding: 0 0px;
+        margin-right: 20px; 
+        
+    }
+    
+    .custom-navbar-left h1 {
+        position: relative;
+        font-family: 'Roboto', sans-serif;
+        font-size: 0.8rem; 
+        font-weight: 600;
         padding: 0px;
+        color: black;
+        letter-spacing: 0px;
+        overflow: hidden;
+        z-index: 1;
+        gap:0;
+        margin-left: -11px;
+    }
+    
+    
+    .custom-navbar-left h1::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        transition: left 0.3s ease; 
+        z-index: -1; 
+        border-radius: 20px;
+    }
+    
+    .custom-navbar-left li:hover h1::before {
+        left: 0;
+    }
+    
+    .custom-navbar-left li:hover h1 {
+        color: white;
+    }
+    
+
+    
+    .custom-login-btn button:hover {
+        background-color: #494949; 
+    }
+    
+    .custom-login-btn {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        gap: 20px;
+        margin-left: auto;
     }
 
-    .custom-navbar-left h1 {
-        font-size: 0.9rem; 
+    .custom-login-btn button {
+        padding: 10px 30px; 
+        font-size: 1rem; 
     }
+    
 
     .CustomModal {
         gap: 8px;
@@ -203,8 +269,12 @@ body {
 @media screen and (min-width: 577px) and (max-width: 992px) {
     .custom-navbar {
         display: flex;
-        justify-content: flex-end;
-      }
+        justify-content: space-between;
+    }
+
+    .custom-navbar-left {
+        margin-right: auto; /* Stick to the left */
+    }
 
     .custom-navbar-left h1 {
         font-size: 1rem;
@@ -218,7 +288,7 @@ body {
     }
 
     .custom-login-btn {
-        margin-left: auto;
-      }
-    
+        margin: 0; /* Reset any existing margin */
+        margin-left: auto; /* Stick to the right */
+    }
 }

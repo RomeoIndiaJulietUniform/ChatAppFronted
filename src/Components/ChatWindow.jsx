@@ -13,9 +13,10 @@ const ChatWindow = (props) => {
   const [contactUid, setContactUid] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [socket, setSocket] = useState(null);
+  const [concatenatedIds, setConcatenatedIds] = useState('');
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     if (props.selectedUserName && props.selectedUserName.length > 0) {
@@ -44,19 +45,11 @@ const ChatWindow = (props) => {
     if (socket) {
       socket.on('message', (message) => {
         console.log('Received message:', message.message);
-         
-        if (message.receiverId && message.receiverId.toString().length === 16 /*&& message.receiverId === curUid*/) {
-          setMessages(prevMessages => [...prevMessages, message]);
-        } else {
-          console.error('Invalid receiverId:', message.receiverId);
-        }
-        
-
+        setMessages(prevMessages => [...prevMessages, message]);
       });
     }
   }, [socket]);
-  
-  
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 760);
@@ -73,14 +66,39 @@ const ChatWindow = (props) => {
         senderId: curUid,
         receiverId: contactUid
       };
+      const newConcatenatedIds = `${curUid}-${contactUid}`;
       socket.emit('sendMessage', newMessage);
-      /*setMessages(prevMessages => [...prevMessages, newMessage])*/
+      saveMessage(newConcatenatedIds, newMessage.message);
       setInputMessage('');
+      setConcatenatedIds(newConcatenatedIds);
+    }
+  };
+
+  const saveMessage = async (concatenatedIds, message) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/messages/message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ concatenatedIds, message })
+      });
+      if (!response.ok) {
+        throw new Error('Failed to save message');
+      }
+    } catch (error) {
+      console.error('Error saving message:', error);
     }
   };
 
   const handleBackButtonClick = () => {
     window.location.reload();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
   };
 
   return (
@@ -102,6 +120,7 @@ const ChatWindow = (props) => {
               placeholder='Type your message...'
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <button onClick={handleSendMessage}>Send</button>
           </div>
