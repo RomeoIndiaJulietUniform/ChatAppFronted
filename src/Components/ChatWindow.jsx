@@ -24,21 +24,14 @@ const ChatWindow = (props) => {
     setContactUid(props.selectedUserName[0][1]);
     setShowChat(true);
     setConcatenatedIds(`${props.currUid}-${props.selectedUserName[0][1]}`);
-   
+    fetchMessages(`${props.currUid}-${props.selectedUserName[0][1]}`);
+    fetchMessagesSender(`${props.selectedUserName[0][1]}-${props.currUid}`);
   } else {
     setShowChat(false);
   }
 
 
 }, [props.selectedUserName]);
-
-useEffect(() => {
-  if (props.selectedUserName && props.selectedUserName.length > 0) {
-    fetchMessages(`${props.currUid}-${props.selectedUserName[0][1]}`);
-    fetchMessagesSender(`${props.selectedUserName[0][1]}-${props.currUid}`);
-  }
-}, []);
-
 
   useEffect(() => {
     setCurUid(props.currUid);
