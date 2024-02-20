@@ -18,18 +18,27 @@ const ChatWindow = (props) => {
   const [sendMsg, setSendMsg] = useState(false);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    if (props.selectedUserName && props.selectedUserName.length > 0) {
-      setContactName(props.selectedUserName[0][0]);
-      setContactUid(props.selectedUserName[0][1]);
-      setShowChat(true);
-      setConcatenatedIds(`${props.currUid}-${props.selectedUserName[0][1]}`);
-      fetchMessages(`${props.currUid}-${props.selectedUserName[0][1]}`);
-      fetchMessagesSender(`${props.selectedUserName[0][1]}-${props.currUid}`);
-    } else {
-      setShowChat(false);
-    }
-  }, [props.selectedUserName]);
+ useEffect(() => {
+  if (props.selectedUserName && props.selectedUserName.length > 0) {
+    setContactName(props.selectedUserName[0][0]);
+    setContactUid(props.selectedUserName[0][1]);
+    setShowChat(true);
+    setConcatenatedIds(`${props.currUid}-${props.selectedUserName[0][1]}`);
+   
+  } else {
+    setShowChat(false);
+  }
+
+
+}, [props.selectedUserName]);
+
+useEffect(() => {
+  if (props.selectedUserName && props.selectedUserName.length > 0) {
+    fetchMessages(`${props.currUid}-${props.selectedUserName[0][1]}`);
+    fetchMessagesSender(`${props.selectedUserName[0][1]}-${props.currUid}`);
+  }
+}, []);
+
 
   useEffect(() => {
     setCurUid(props.currUid);

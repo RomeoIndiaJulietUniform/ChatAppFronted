@@ -6,7 +6,6 @@ import About from './About.jsx';
 import Contact from './Contact.jsx';
 import Feature from './Feature.jsx';
 import { useNavigate } from 'react-router-dom';
-import aboutImage from '../Images/Soap.png'; 
 
 const Home = () => {
   const [username, setUsername] = useState('');
@@ -40,8 +39,7 @@ const Home = () => {
     };
   }, []);
 
-  
-  const maxTranslation = 1400; 
+  const maxTranslation = 1400;
 
   const scrollRefs = {
     aboutRef,
@@ -66,9 +64,7 @@ const Home = () => {
         <Navbar className='navbar' scrollRefs={scrollRefs} />
         <div className="content">
           {isLargeScreen && (
-            <div className="parallax-image" style={{ transform: `translateY(${Math.min(scrollPosition * 1.5, maxTranslation)}px)` }}>
-              <img src={aboutImage} alt="Parallax" />
-            </div>
+            <div className="parallax-image" style={{ transform: `translateY(${Math.min(scrollPosition * 1.5, maxTranslation)}px)` }}></div>
           )}
 
           <div className="claim-username-container">
@@ -108,7 +104,6 @@ const Home = () => {
           </div>
 
         </div>
-
 
         <div ref={aboutRef} id="about">
           <About />
