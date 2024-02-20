@@ -15,6 +15,7 @@ const ChatWindow = (props) => {
   const [showChat, setShowChat] = useState(false);
   const [socket, setSocket] = useState(null);
   const [concatenatedIds, setConcatenatedIds] = useState('');
+  const [sendMsg, setSendMsg] = useState(false);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
@@ -70,6 +71,9 @@ const ChatWindow = (props) => {
         receiverId: contactUid
       };
       socket.emit('sendMessage', newMessage);
+      console.log('no mans land', newMessage);
+      console.log('Flag Enabled brother', curUid);
+      setSendMsg(true);
       setMessages(prevMessages => [...prevMessages, newMessage]);
       saveMessage(concatenatedIds, newMessage.message);
       setInputMessage('');
@@ -150,66 +154,73 @@ const ChatWindow = (props) => {
       handleSendMessage();
     }
   };
+   
 
-  return (
-    <div className='window'>
-      {showChat ? (
-        <div className='chat-container'>
-          <div className='chat-header'>
-            {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
-            <h3>{contactName}</h3>
-          </div>
-          <div className='chat-messages'>
-              {messages.map((message, index) => (
-                <p 
-                  key={index} 
-                  className={
-                    message.receiverId === curUid || message.concatenatedIds === concatenatedIds 
-                      ? 'received-message' 
-                      : 'sent-message'
-                  }
-                >
-                  {message.message}
-                </p>
-              ))}
-            </div>
+  const sortedMessages = [...messages].sort((messageA, messageB) => {
+    const timestampA = new Date(messageA.timestamp).getTime();
+    const timestampB = new Date(messageB.timestamp).getTime();
+    return timestampA - timestampB;
+  });
 
-          <div className='chat-input'>
-            <input
-              type='text'
-              placeholder='Type your message...'
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <button onClick={handleSendMessage}>Send</button>
+return (
+  <div className='window'>
+    {showChat ? (
+      <div className='chat-container'>
+        <div className='chat-header'>
+          {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
+          <h3>{contactName}</h3>
+        </div>
+        <div className='chat-messages'>
+          {sortedMessages.map((message, index) => (
+            <p 
+              key={index} 
+              className={
+                message.receiverId === curUid || message.concatenatedIds !== concatenatedIds 
+                ? 'received-message' 
+                : 'sent-message'
+
+              }
+            >
+              {message.message}
+            </p>
+          ))}
+        </div>
+        <div className='chat-input'>
+          <input
+            type='text'
+            placeholder='Type your message...'
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={handleSendMessage}>Send</button>
+        </div>
+      </div>
+    ) : (
+      <div className="contact-section">
+        <h2>Contact Me</h2>
+        <div className="icon-container">
+          <a href="https://github.com/RomeoIndiaJulietUniform" target="_blank" rel="noopener noreferrer">
+            <FaGithub className="icon" />
+          </a>
+          <a href="https://www.linkedin.com/in/riju-mondal-137686244/" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin className="icon" />
+          </a>
+          <a href="mailto:contact.rijumondal@gmail.com">
+            <FaGoogle className="icon" />
+          </a>
+        </div>
+        <h1>The site is dedicated in fond remembrance of Sir Philo Farnsworth</h1>
+        <div className='footer'>
+          <div className="copyright-container">
+            <span className="copyright-logo">©</span>
+            <div className="copyright-text">2024 Riju Mondal. All Rights Reserved.</div>
           </div>
         </div>
-      ) : (
-        <div className="contact-section">
-          <h2>Contact Me</h2>
-          <div className="icon-container">
-            <a href="https://github.com/RomeoIndiaJulietUniform" target="_blank" rel="noopener noreferrer">
-              <FaGithub className="icon" />
-            </a>
-            <a href="https://www.linkedin.com/in/riju-mondal-137686244/" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="icon" />
-            </a>
-            <a href="mailto:contact.rijumondal@gmail.com">
-              <FaGoogle className="icon" />
-            </a>
-          </div>
-          <h1>The site is dedicated in fond remembrance of Sir Philo Farnsworth</h1>
-          <div className='footer'>
-            <div className="copyright-container">
-              <span className="copyright-logo">©</span>
-              <div className="copyright-text">2024 Riju Mondal. All Rights Reserved.</div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+); 
 };
 
 export default ChatWindow;
