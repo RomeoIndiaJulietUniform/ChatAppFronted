@@ -15,7 +15,6 @@ const ChatWindow = (props) => {
   const [showChat, setShowChat] = useState(false);
   const [socket, setSocket] = useState(null);
   const [concatenatedIds, setConcatenatedIds] = useState('');
-
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
@@ -23,6 +22,9 @@ const ChatWindow = (props) => {
       setContactName(props.selectedUserName[0][0]);
       setContactUid(props.selectedUserName[0][1]);
       setShowChat(true);
+      setConcatenatedIds(`${props.currUid}-${props.selectedUserName[0][1]}`);
+      fetchMessages(`${props.currUid}-${props.selectedUserName[0][1]}`);
+      fetchMessagesSender(`${props.selectedUserName[0][1]}-${props.currUid}`);
     } else {
       setShowChat(false);
     }
@@ -44,14 +46,12 @@ const ChatWindow = (props) => {
   useEffect(() => {
     if (socket) {
       socket.on('message', (message) => {
-        console.log('Received message:', message.message);
-        console.log('In no mans land', message.receiverId);
-        if(message.receiverId == curUid){
+        if (message.receiverId === curUid) {
           setMessages(prevMessages => [...prevMessages, message]);
-        } 
+        }
       });
     }
-  }, [socket]);
+  }, [socket, curUid]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -69,12 +69,10 @@ const ChatWindow = (props) => {
         senderId: curUid,
         receiverId: contactUid
       };
-      const newConcatenatedIds = `${curUid}-${contactUid}`;
       socket.emit('sendMessage', newMessage);
       setMessages(prevMessages => [...prevMessages, newMessage]);
-      saveMessage(newConcatenatedIds, newMessage.message);
+      saveMessage(concatenatedIds, newMessage.message);
       setInputMessage('');
-      setConcatenatedIds(newConcatenatedIds);
     }
   };
 
@@ -92,6 +90,54 @@ const ChatWindow = (props) => {
       }
     } catch (error) {
       console.error('Error saving message:', error);
+    }
+  };
+
+  const fetchMessages = async (concatenatedIds) => {
+    try {
+      console.log('Fetching messages...');
+      console.log('Concatenated IDs:', concatenatedIds);
+
+      const response = await fetch(`${API_BASE_URL}/custom-path/${concatenatedIds}`);
+      if (response.ok) {
+        console.log('Successfully received response.');
+        const data = await response.json();
+        console.log('Received data:', data);
+        const len = data.length;
+        for(let i = 0; i < len ; i++){
+          setMessages(prevMessages => [...prevMessages, data[i]]);
+        }
+        
+      } else {
+        throw new Error('Failed to fetch messages');
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+
+
+  const fetchMessagesSender = async (concatenatedId) => {
+    try {
+      console.log('Fetching messages...');
+      console.log('Concatenated IDs:', concatenatedId);
+
+      const response = await fetch(`${API_BASE_URL}/custom-path/${concatenatedId}`);
+      if (response.ok) {
+        console.log('Successfully received response.');
+        const data = await response.json();
+        console.log('Received data:', data);
+        const len = data.length;
+        for(let i = 0; i < len ; i++){
+          setMessages(prevMessages => [...prevMessages, data[i]]);
+        }
+        
+      } else {
+        throw new Error('Failed to fetch messages');
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
     }
   };
 
@@ -114,10 +160,20 @@ const ChatWindow = (props) => {
             <h3>{contactName}</h3>
           </div>
           <div className='chat-messages'>
-            {messages.map((message, index) => (
-              <p key={index} className={message.receiverId === curUid ?  'received-message': 'sent-message' }>{message.message}</p>
-            ))}
-          </div>
+              {messages.map((message, index) => (
+                <p 
+                  key={index} 
+                  className={
+                    message.receiverId === curUid || message.concatenatedIds === concatenatedIds 
+                      ? 'received-message' 
+                      : 'sent-message'
+                  }
+                >
+                  {message.message}
+                </p>
+              ))}
+            </div>
+
           <div className='chat-input'>
             <input
               type='text'
