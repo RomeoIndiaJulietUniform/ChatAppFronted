@@ -3,6 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../CompStyles/ChatWindow.css';
 import { FaGithub, FaLinkedin, FaGoogle, FaArrowLeft } from 'react-icons/fa';
 import io from 'socket.io-client';
+import NewsCrawl from './NewsCrawl';
 
 const ChatWindow = (props) => {
   const { user } = useAuth0();
@@ -172,6 +173,7 @@ return (
           {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
           <h3>{contactName}</h3>
         </div>
+        <NewsCrawl/>
         <div className='chat-messages'>
           {sortedMessages.map((message, index) => (
             <p 
@@ -199,6 +201,7 @@ return (
         </div>
       </div>
     ) : (
+      <div className='BlankWindow'>
       <div className="contact-section">
         <h2>Contact Me</h2>
         <div className="icon-container">
@@ -219,6 +222,8 @@ return (
             <div className="copyright-text">2024 Riju Mondal. All Rights Reserved.</div>
           </div>
         </div>
+      </div>
+      <NewsCrawl className="newscrawl"/>
       </div>
     )}
   </div>

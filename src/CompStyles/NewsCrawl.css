@@ -1,0 +1,19 @@
+/* Default styles for .newsCrawl */
+.newsCrawl {
+    color: rgb(20, 19, 19);
+    font-size: 2.5rem;
+}
+
+/* Media query for tablets */
+@media only screen and (max-width: 890px) {
+    .newsCrawl {
+        font-size: 2rem; /* Adjust font size for tablets */
+    }
+}
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 580px) {
+    .newsCrawl {
+        font-size: 1.5rem; /* Adjust font size for mobile devices */
+    }
+}

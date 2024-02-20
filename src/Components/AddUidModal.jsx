@@ -91,6 +91,7 @@ const AddUidModal = ({ closeModal }) => {
           name="uidInput"
           value={newUid}
           onChange={(e) => setNewUid(e.target.value)}
+          placeholder='Your new 16 Digit UID'
         />
         <p>Current UID: {uid}</p>
         {newUid.length == 16  ? (

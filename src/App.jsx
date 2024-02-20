@@ -13,7 +13,7 @@ const App = () => {
   useEffect(() => {
     const uploadUserToMongoDB = async () => {
       try {
-        if (!user) return; // Ensure user exists before trying to upload
+        if (!user) return; 
 
         const response = await fetch(`${API_BASE_URL}/api/uploadUser`, {
           method: 'POST',
