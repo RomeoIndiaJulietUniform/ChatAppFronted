@@ -8,6 +8,10 @@
   width: 30%;
 }
 
+.newscrawl{
+  background-color: aliceblue;
+}
+
 .feat {
   display: flex;
   flex-direction: column;

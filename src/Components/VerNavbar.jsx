@@ -7,6 +7,7 @@ import SearchModal from './SearchModal';
 import AddUidModal from './AddUidModal';
 import LogoutModal from './LogoutModal';
 import '../CompStyles/VerNavbar.css';
+import NewsCrawl from './NewsCrawl';
 
 
 const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
@@ -165,10 +166,14 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
 
         {isLogoutModalOpen && <LogoutModal isOpen={isLogoutModalOpen} onRequestClose={closeAllModals} />}
       </div>
-
+     
       {isAddChatModalOpen && <AddChatModal closeModal={closeAllModals} />}
       {isSearchModalOpen && <SearchModal closeModal={closeAllModals} onSelectUserName={handleSelectUserName} />}
       {isAddUidModalOpen && <AddUidModal closeModal={closeAllModals}/>}
+      <div className='newscrawl'>
+      <NewsCrawl className= "VerNavCrawl"/>
+      </div>
+      
     </div>
   );
 };
