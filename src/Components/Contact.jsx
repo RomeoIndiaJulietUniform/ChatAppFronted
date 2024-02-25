@@ -8,7 +8,7 @@ const Contact = () => {
     <div className="contact-container">
       <h2 className="contact-heading">Contact Me</h2>
       <div className="icon-wrapper">
-        <a href="https://github.com/RomeoIndiaJulietUniform" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/RomeoIndiaJulietUniform/ChatApp" target="_blank" rel="noopener noreferrer">
           <FaGithub className="contact-icon" />
         </a>
         <a href="https://www.linkedin.com/in/riju-mondal-137686244/" target="_blank" rel="noopener noreferrer">

@@ -205,7 +205,7 @@ return (
       <div className="contact-section">
         <h2>Contact Me</h2>
         <div className="icon-container">
-          <a href="https://github.com/RomeoIndiaJulietUniform" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/RomeoIndiaJulietUniform/ChatApp" target="_blank" rel="noopener noreferrer">
             <FaGithub className="icon" />
           </a>
           <a href="https://www.linkedin.com/in/riju-mondal-137686244/" target="_blank" rel="noopener noreferrer">
