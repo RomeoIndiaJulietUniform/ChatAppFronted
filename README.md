@@ -1,1 +1,0 @@
-Making a unique Chat App, wish me luck :v:
