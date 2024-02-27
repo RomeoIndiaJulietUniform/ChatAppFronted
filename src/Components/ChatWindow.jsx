@@ -183,7 +183,7 @@ return (
             <p 
               key={index} 
               className={
-                message.receiverId === curUid
+                message.receiverId === curUid || message.concatenatedIds !== concatenatedIds 
                 ? 'received-message' 
                 : 'sent-message'
 
