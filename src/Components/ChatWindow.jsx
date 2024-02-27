@@ -5,6 +5,7 @@ import { FaGithub, FaLinkedin, FaGoogle, FaArrowLeft } from 'react-icons/fa';
 import io from 'socket.io-client';
 import NewsCrawl from './NewsCrawl';
 
+
 const ChatWindow = (props) => {
   const { user } = useAuth0();
   const [messages, setMessages] = useState([]);
@@ -56,6 +57,9 @@ const ChatWindow = (props) => {
       });
     }
   }, [socket, curUid]);
+
+
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -179,7 +183,7 @@ return (
             <p 
               key={index} 
               className={
-                message.receiverId === curUid || message.concatenatedIds !== concatenatedIds 
+                message.receiverId === curUid
                 ? 'received-message' 
                 : 'sent-message'
 
