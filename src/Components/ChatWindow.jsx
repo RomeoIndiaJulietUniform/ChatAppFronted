@@ -116,7 +116,7 @@ const ChatWindow = (props) => {
         console.log('Received data:', data);
         const len = data.length;
         for(let i = 0; i < len ; i++){
-          setMessages(prevMessages => [...prevMessages, data[i]]);
+          /*setMessages(prevMessages => [...prevMessages, data[i]]); */
         }
         
       } else {
@@ -141,7 +141,7 @@ const ChatWindow = (props) => {
         console.log('Received data:', data);
         const len = data.length;
         for(let i = 0; i < len ; i++){
-          setMessages(prevMessages => [...prevMessages, data[i]]);
+          /*setMessages(prevMessages => [...prevMessages, data[i]]);*/
         }
         
       } else {
@@ -183,7 +183,7 @@ return (
             <p 
               key={index} 
               className={
-                message.receiverId === curUid || message.concatenatedIds !== concatenatedIds 
+                message.receiverId === curUid /*|| message.concatenatedIds !== concatenatedIds */ 
                 ? 'received-message' 
                 : 'sent-message'
 
