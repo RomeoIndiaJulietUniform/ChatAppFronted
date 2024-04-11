@@ -177,8 +177,9 @@ return (
           {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
           <h3>{contactName}</h3>
         </div>
-        {/*<NewsCrawl className='news_crawl' style={{ color: 'white' }} />*/}
-
+        <div className='news_crawl' >
+        <NewsCrawl />
+        </div>
         <div className='chat-messages'>
           {sortedMessages.map((message, index) => (
             <p 
@@ -228,7 +229,6 @@ return (
           </div>
         </div>
       </div>
- {/* <NewsCrawl className="newscrawl"/> */}
       </div>
     )}
   </div>

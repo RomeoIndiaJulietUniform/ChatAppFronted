@@ -8,6 +8,11 @@
   width: 30%;
 }
 
+.footer-vernavbar article.imgauth {
+  cursor: pointer;
+}
+
+
 .newscrawl{
   background-color: aliceblue;
 }
