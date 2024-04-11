@@ -177,13 +177,14 @@ return (
           {isMobile && <FaArrowLeft className='back-button' onClick={handleBackButtonClick} />}
           <h3>{contactName}</h3>
         </div>
-        <NewsCrawl/>
+        {/*<NewsCrawl className='news_crawl' style={{ color: 'white' }} />*/}
+
         <div className='chat-messages'>
           {sortedMessages.map((message, index) => (
             <p 
               key={index} 
               className={
-                message.receiverId === curUid /*|| message.concatenatedIds !== concatenatedIds */ 
+                message.receiverId === curUid || message.concatenatedIds !== concatenatedIds 
                 ? 'received-message' 
                 : 'sent-message'
 
@@ -227,7 +228,7 @@ return (
           </div>
         </div>
       </div>
-      <NewsCrawl className="newscrawl"/>
+ {/* <NewsCrawl className="newscrawl"/> */}
       </div>
     )}
   </div>
