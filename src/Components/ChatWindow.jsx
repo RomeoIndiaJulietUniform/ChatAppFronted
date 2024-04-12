@@ -116,7 +116,7 @@ const ChatWindow = (props) => {
         console.log('Received data:', data);
         const len = data.length;
         for(let i = 0; i < len ; i++){
-          /*setMessages(prevMessages => [...prevMessages, data[i]]); */
+          setMessages(prevMessages => [...prevMessages, data[i]]); 
         }
         
       } else {
@@ -141,7 +141,7 @@ const ChatWindow = (props) => {
         console.log('Received data:', data);
         const len = data.length;
         for(let i = 0; i < len ; i++){
-          /*setMessages(prevMessages => [...prevMessages, data[i]]);*/
+          setMessages(prevMessages => [...prevMessages, data[i]]);
         }
         
       } else {
