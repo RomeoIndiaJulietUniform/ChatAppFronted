@@ -109,7 +109,8 @@
 .user-box p {
   margin-left: 5%;
   font-size: 1.5rem;
-  letter-spacing: 2px;
+  letter-spacing: 2px; 
+  overflow-wrap: break-word;
 }
 
 .user-box.selected {
