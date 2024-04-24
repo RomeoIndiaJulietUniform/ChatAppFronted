@@ -57,9 +57,10 @@ const VerNavbar = ({ onSelectUserName, onSelectCurruid }) => {
 
 
   const handleUserClick = (userName,uid) => {
-    setSelectedOption(userName);
-    onSelectUserName([userName,uid]);
-
+    if (selectedOption !== userName) {
+      setSelectedOption(userName);
+      onSelectUserName([userName, uid]);
+    }
   };
 
   const openAddChatModal = () => {
