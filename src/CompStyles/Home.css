@@ -168,7 +168,7 @@
     height: 45px;
     position: relative;
     border-radius: 30px;
-    font-size: 1rem;
+    font-size: 0.7rem; 
   }
 
   #submit-btn {
@@ -181,8 +181,8 @@
     margin-top: 10px;
     font-size: 1.5rem;
   }
-
 }
+
 
 /* For tablets */
 @media only screen and (min-width: 601px) and (max-width: 1024px) {

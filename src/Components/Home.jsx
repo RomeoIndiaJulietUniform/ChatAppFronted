@@ -83,14 +83,14 @@ const Home = () => {
               </div>
 
               <div className="input-container">
-                <div className="input-wrapper">
+                <div id="wrap112" className="input-wrapper">
                   <input
                     type="text"
                     id="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="clickable-input"
-                    placeholder='Why type here, when you can enter and chat your hearts out'
+                    placeholder='Enter your Email address'
                   />
                   {!isAuthenticated ? (
                     <button id="submit-btn" onClick={loginWithRedirect}>ENTER</button>
